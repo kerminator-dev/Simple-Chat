@@ -8,8 +8,8 @@ namespace SignalRConsoleApp
     {
         private static async Task Main(string[] args)
         {
-
-
+            Console.Write("Токен: ");
+            var token = Console.ReadLine();
 
             ServiceProvider service = new ServiceCollection()
                 .AddLogging((loggingBuilder) => loggingBuilder
@@ -17,27 +17,57 @@ namespace SignalRConsoleApp
                 )
                 .BuildServiceProvider();
 
+
+
             var hubConnection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:7133/chathub", options =>
                 {
-                    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
-                    options.AccessTokenProvider = () => Task.FromResult("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJhZG1pbjEyMyIsIm5iZiI6MTY3NjkxNDAwNSwiZXhwIjoxNjc2OTIxMjA1LCJpYXQiOjE2NzY5MTQwMDUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwOTEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MDkxIn0.mPvSNHqsw4cmXun2h1pWivxc4aJrQoJk40cdndL3EoU");
+                    options.AccessTokenProvider = () => Task.FromResult(token);
+
+
+
+
                 })
                 
                 .WithAutomaticReconnect()
                 .Build();
 
             // Register the handler here!! 
-            hubConnection.On<bool>("OnPremAgentStatusReceived", (isReachable) => {
-                if (isReachable)
-                    Console.WriteLine("Agent is reachable");
-                else
-                    Console.WriteLine("Agent is not reachable");
+            hubConnection.On<string>("UserGetsOffline", (username) => {
+
+                    Console.WriteLine($"{username} вышел из сети");
             });
 
-            hubConnection.StartAsync().Wait();
+            hubConnection.On<string>("UserGetsOnline", (username) => {
 
+                Console.WriteLine($"{username} появился в сети");
+            });
+
+            hubConnection.On<MessageNotificationDTO>("OnNewMessage", (message) => {
+
+                Console.WriteLine($"Сообщение от {message.Sender}: {message.Message}");
+            });
+            
+            hubConnection.StartAsync().Wait();
             Console.ReadKey();
         }
+    }
+
+    public class MessageNotificationDTO
+    {
+
+        // Username отправителя
+        public string Sender { get; set; }
+
+        // Username получателя
+        public string Receiver { get; set; }
+
+        // Статический ключ - у всех клиентов одинаковый,
+        // Шифруется перед отправкой
+        // Нужен для определения - возможно ли расшифровать сообщение
+        public string StaticKey { get; set; }
+
+        // Сообщение
+        public string Message { get; set; }
     }
 }

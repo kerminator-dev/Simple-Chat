@@ -1,6 +1,5 @@
 ﻿using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
-using ChatAPI.Utils;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
@@ -15,7 +14,7 @@ namespace ChatAPI.Middlewares
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService, JwtUtils jwtUtils)
+        public async Task Invoke(HttpContext context, IUserService userService, ITokenService tokernService)
         {
             try
             {
@@ -25,7 +24,7 @@ namespace ChatAPI.Middlewares
                 {
                     token = token.Replace("Bearer ", "");
 
-                    if (jwtUtils.ValidateToken(token))
+                    if (tokernService.ValidateAccessToken(token))
                     {
                         var username = context.User.Claims
                                .First(i => i.Type == ClaimTypes.NameIdentifier).Value;

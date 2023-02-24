@@ -1,6 +1,4 @@
-﻿using ChatAPI.Utils;
-using Microsoft.Net.Http.Headers;
-using System.Linq.Expressions;
+﻿using Microsoft.Net.Http.Headers;
 using System.Security.Claims;
 
 namespace ChatAPI.Extensions

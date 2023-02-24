@@ -1,26 +1,36 @@
-﻿using ChatAPI.DTOs.Notifications;
-using ChatAPI.Extensions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ChatAPI.Hubs
 {
+    [Authorize]
     public class ChatHub : Hub
     {
-        [Authorize]
-        public async Task Send(string name, string message)
+
+        public ChatHub()
         {
-            await Clients.All.SendAsync(name, message);
+            
         }
 
-
-        [Authorize]
-        public override Task OnConnectedAsync()
+        public async override Task OnConnectedAsync()
         {
+            string username = Context.UserIdentifier;
 
+            if (string.IsNullOrEmpty(username))
+                return;
 
+            // Уведомление остальных участников о том, что пользователь вошёл в сеть
+            await Clients.Others.SendAsync("UserGetsOnline", Context.UserIdentifier);
 
-            return base.OnConnectedAsync();
+            await base.OnConnectedAsync();
+        }
+
+        public async override  Task OnDisconnectedAsync(Exception? exception)
+        {
+            // Уведомление остальных участников о том, что пользователь вышел из сети
+            await Clients.Others.SendAsync("UserGetsOffline", Context.UserIdentifier);
+
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

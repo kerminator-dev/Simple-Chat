@@ -2,7 +2,6 @@ using ChatAPI.Models;
 using ChatAPI.Services.Interfaces;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Extensions;
-using ChatAPI.Utils;
 using ChatAPI.Entities;
 using ChatAPI.Hubs;
 using Microsoft.AspNetCore.Http.Connections;
@@ -21,18 +20,20 @@ builder.Services.AddAuthenticationConfiguration(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Êýø
-builder.Services.AddSingleton<ICache<string, RefreshToken>, InMemoryRefreshTokenRepository>();
-builder.Services.AddSingleton<ICache<string, User>, InMemoryUserRepository>();
+builder.Services.AddSingleton<ICache<string, RefreshToken>, CachedRefreshTokenRepository>();
+builder.Services.AddSingleton<ICache<string, User>, CachedUserRepository>();
 
-builder.Services.AddSingleton<JwtUtils>();
+// builder.Services.AddSingleton<JwtUtils>();
+builder.Services.AddSingleton<ITokenService, JwtTokenService>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSignalR().AddJsonProtocol();
-
 builder.Services.AddScoped<ChatHub>();
+builder.Services.AddScoped<IMessagingService, MessagingService>();
+
 
 var app = builder.Build();
 
@@ -45,6 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseCors(builder =>
@@ -55,11 +57,10 @@ app.UseCors(builder =>
 });
 app.MapHub<ChatHub>("/chathub", options =>
 {
-    options.Transports = HttpTransportType.WebSockets;
     options.TransportMaxBufferSize = 32;
     options.ApplicationMaxBufferSize = 32;
 });
-app.UseMiddleware<JwtMiddleware>();
+// app.UseMiddleware<JwtMiddleware>();
 
 
 app.Run();

@@ -1,6 +1,9 @@
 ﻿using ChatAPI.DTOs.Requests;
+using ChatAPI.Entities;
+using ChatAPI.Exceptions;
 using ChatAPI.Extensions;
-using ChatAPI.Utils;
+using ChatAPI.Services.Implementation;
+using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,25 +15,37 @@ namespace ChatAPI.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        private readonly JwtUtils _jwtUtils;
-        
+        private readonly AuthenticationService _authenticationService;
+        private readonly IMessagingService _messagingService;
 
-        public MessagesController(JwtUtils jwtUtils)
+        public MessagesController(AuthenticationService authenticationService, IMessagingService messagingService)
         {
-            _jwtUtils = jwtUtils;
+            _authenticationService = authenticationService;
+            _messagingService = messagingService;
         }
 
-        [HttpGet("Send")]
+        [HttpPost("Send")]
         [Authorize]
-        public async Task<IActionResult> SendMessage()
+        public async Task<IActionResult> SendMessage([FromBody] SendMessageRequestDTO messageRequestDTO)
         {
-            if (!HttpContext.Items.TryGetValue("User", out var user))
+            User user = await _authenticationService.RetrieveUserFromHTTPContex(HttpContext);
+            if (user == null)
             {
                 return Unauthorized();
             }
 
-
-
+            try
+            {
+                await _messagingService.Send(user, messageRequestDTO);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
             return Ok();
         }
     }

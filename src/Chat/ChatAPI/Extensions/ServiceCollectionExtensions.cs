@@ -1,6 +1,5 @@
 ﻿using ChatAPI.Data;
 using ChatAPI.Models;
-using ChatAPI.Services.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -15,23 +14,59 @@ namespace ChatAPI.Extensions
             var authConfig = new AuthenticationConfiguration();
 
             configuration.Bind("Authehtication", authConfig);
-            services.AddSingleton(authConfig);
+            services.AddSingleton<AuthenticationConfiguration>(authConfig);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
+            //{
+            //    o.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.AccessTokenSecret)),
+            //        ValidIssuer = authConfig.Issuer,
+            //        ValidAudience = authConfig.Audience,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ClockSkew = TimeSpan.Zero
+            //    };
+            //});
+
+            services.AddAuthentication(options =>
             {
-                o.TokenValidationParameters = new TokenValidationParameters()
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.AccessTokenSecret)),
                     ValidIssuer = authConfig.Issuer,
                     ValidAudience = authConfig.Audience,
-                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes(authConfig.AccessTokenSecret)),
                     ValidateIssuer = true,
                     ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero
                 };
-            });
 
-            return services;
+                o.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (string.IsNullOrEmpty(accessToken) == false)
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+            
+
+             return services;
         }
 
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration configuration)

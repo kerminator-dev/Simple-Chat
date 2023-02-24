@@ -3,7 +3,7 @@ using ChatAPI.Entities;
 
 namespace ChatAPI.Services.Interfaces
 {
-    public interface IMessageService
+    public interface IMessagingService
     {
         Task Send(User sender, SendMessageRequestDTO message);
     }

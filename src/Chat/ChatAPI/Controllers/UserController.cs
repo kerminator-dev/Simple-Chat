@@ -1,10 +1,7 @@
 ﻿using ChatAPI.DTOs.Requests;
 using ChatAPI.DTOs.Responses;
-using ChatAPI.Entities;
-using ChatAPI.Exceptions;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
-using ChatAPI.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,20 +9,19 @@ namespace ChatAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class UserController :  ControllerBase
     {
         private readonly AuthenticationService _authenticationService;
-        private readonly JwtUtils _jwtUtils;
+        private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
 
-        public AuthenticationController(IUserService userService, 
-                                        AuthenticationService authenticationService, 
-                                        IPasswordHasher passwordHasher, 
-                                        JwtUtils jwtUtils)
+        public UserController(IUserService userService,
+                                        AuthenticationService authenticationService,
+                                        ITokenService tokenService)
         {
             _userService = userService;
             _authenticationService = authenticationService;
-            _jwtUtils = jwtUtils;
+            _tokenService = tokenService;
         }
 
         /// <summary>
@@ -50,11 +46,11 @@ namespace ChatAPI.Controllers
 
             try
             {
-                await  _userService.RegisterUser(registerRequest);
+                await _userService.RegisterUser(registerRequest);
 
                 return Ok();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -100,19 +96,14 @@ namespace ChatAPI.Controllers
             {
                 return BadRequest();
             }
-
-            // Проверка refresh-токена
-            bool isValidRefreshToken = _jwtUtils.ValidateToken(refreshTokenRequest.RefreshToken);
-            if (!isValidRefreshToken)
-            {
-                // Если токен неверный
-                return Unauthorized();
-            }
-
+           
             try
             {
                 // Выполнение аутентификации/генерации токенов
                 AuthenticatedUserResponseDTO response = await _authenticationService.RefreshToken(refreshTokenRequest);
+
+                // Удаление старого токена
+                _tokenService.RemoveRefreshToken(refreshTokenRequest.RefreshToken);
 
                 return Ok(response);
             }

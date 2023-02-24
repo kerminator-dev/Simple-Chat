@@ -4,20 +4,19 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace ChatAPI.Services.Implementation
 {
-    public class InMemoryUserRepository : ICache<string, User>
+    public class CachedUserRepository : ICache<string, User>
     {
         private readonly MemoryCache _cache;
 
-        public InMemoryUserRepository()
+        public CachedUserRepository()
         {
             var cacheOptions = new MemoryCacheOptions();
             cacheOptions.ExpirationScanFrequency = TimeSpan.FromHours(4);
-            cacheOptions.SizeLimit = 100;
 
             _cache = new MemoryCache(cacheOptions);
         }
 
-        public InMemoryUserRepository(MemoryCacheOptions cacheOptions)
+        public CachedUserRepository(MemoryCacheOptions cacheOptions)
         {
             _cache = new MemoryCache(cacheOptions);
         }
