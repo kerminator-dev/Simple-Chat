@@ -28,9 +28,12 @@ namespace ChatAPI.Services.Implementation
                 expires: DateTime.UtcNow.AddMinutes(_authenticationConfiguration.AccessTokenExpirationMinutes),
                 issuer: _authenticationConfiguration.Issuer,
                 audience: _authenticationConfiguration.Audience,
-                claim: new Claim(ClaimTypes.NameIdentifier, user.Username
-            )
-);
+                claim: new Claim
+                (
+                    type: ClaimTypes.NameIdentifier, 
+                    value: user.Username
+                )
+            );
         }
 
         public string GenerateRefreshToken(User user)
@@ -50,7 +53,7 @@ namespace ChatAPI.Services.Implementation
             {
                 ExpirationDateTime = DateTime.UtcNow.Add(expiresAfter),
                 Token = sb.ToString(),
-                Username = user.Username,
+                OwnerUsername = user.Username,
             };
 
             _refreshTokenRepository.Set

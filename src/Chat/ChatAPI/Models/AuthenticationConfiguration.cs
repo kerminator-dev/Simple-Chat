@@ -5,9 +5,6 @@
         // Токен доступа
         public string AccessTokenSecret { get; set; }
 
-        // Токен для обновления токена доступа
-        public string RefreshTokenSecret { get; set; }
-
         // Срок действия токена доступа в минутах
         public double AccessTokenExpirationMinutes { get; set; }
 

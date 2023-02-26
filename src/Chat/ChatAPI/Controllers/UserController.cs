@@ -1,5 +1,6 @@
 ﻿using ChatAPI.DTOs.Requests;
 using ChatAPI.DTOs.Responses;
+using ChatAPI.Exceptions;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -9,19 +10,16 @@ namespace ChatAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController :  ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly AuthenticationService _authenticationService;
-        private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
 
         public UserController(IUserService userService,
-                                        AuthenticationService authenticationService,
-                                        ITokenService tokenService)
+                                        AuthenticationService authenticationService)
         {
             _userService = userService;
             _authenticationService = authenticationService;
-            _tokenService = tokenService;
         }
 
         /// <summary>
@@ -77,10 +75,38 @@ namespace ChatAPI.Controllers
 
                 return Ok(response);
             }
-            catch (Exception ex)
+            catch (SignInException ex)
             {
                 return Unauthorized(ex.Message);
             }
+            catch (EntityNotFoundException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpDelete("Delete")]
+        [Authorize]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var user = await _authenticationService.RetrieveUserFromHTTPContex(HttpContext);
+            if (user == null)
+                return Unauthorized();
+
+            try
+            {
+                await _userService.DeleteUser(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         /// <summary>
@@ -99,13 +125,14 @@ namespace ChatAPI.Controllers
            
             try
             {
-                // Выполнение аутентификации/генерации токенов
+                // Генерация токенов
                 AuthenticatedUserResponseDTO response = await _authenticationService.RefreshToken(refreshTokenRequest);
 
-                // Удаление старого токена
-                _tokenService.RemoveRefreshToken(refreshTokenRequest.RefreshToken);
-
                 return Ok(response);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {

@@ -1,13 +1,10 @@
 ﻿using ChatAPI.DTOs.Requests;
 using ChatAPI.Entities;
 using ChatAPI.Exceptions;
-using ChatAPI.Extensions;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace ChatAPI.Controllers
 {
@@ -36,9 +33,17 @@ namespace ChatAPI.Controllers
 
             try
             {
-                await _messagingService.Send(user, messageRequestDTO);
+                await _messagingService.SendMessage(user, messageRequestDTO);
+            }
+            catch (MessageNotSendException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -46,6 +51,7 @@ namespace ChatAPI.Controllers
             {
                 return BadRequest();
             }
+
             return Ok();
         }
     }

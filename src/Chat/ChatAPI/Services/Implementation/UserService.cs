@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using ChatAPI.DTOs;
-using ChatAPI.DTOs.Requests;
+﻿using ChatAPI.DTOs.Requests;
 using ChatAPI.Entities;
 using ChatAPI.Exceptions;
 using ChatAPI.Services.Interfaces;
@@ -75,8 +73,6 @@ namespace ChatAPI.Services.Implementation
             await _userRepository.Delete(user);
 
             _cachedUsersRepository.Remove(user.Username);
-
-            await _userRepository.Delete(user);
         }
 
         public async Task UpdateUser(User user)

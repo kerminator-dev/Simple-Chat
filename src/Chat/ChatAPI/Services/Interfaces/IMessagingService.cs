@@ -5,6 +5,6 @@ namespace ChatAPI.Services.Interfaces
 {
     public interface IMessagingService
     {
-        Task Send(User sender, SendMessageRequestDTO message);
+        Task SendMessage(User sender, SendMessageRequestDTO message);
     }
 }

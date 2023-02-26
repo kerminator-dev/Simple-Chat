@@ -2,6 +2,8 @@
 {
     public class MessageNotificationDTO
     {
+        // Идентификатор сообщения
+        public string Id { get; set; }
 
         // Username отправителя
         public string Sender { get; set; }
@@ -15,6 +17,7 @@
         public string StaticKey { get; set; }
 
         // Сообщение
+        // Шифруется перед отправкой
         public string Message { get; set; }
     }
 }

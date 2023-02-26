@@ -1,6 +1,7 @@
 ﻿using ChatAPI.Entities;
 using ChatAPI.Services.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 
 namespace ChatAPI.Services.Implementation
 {
@@ -16,7 +17,7 @@ namespace ChatAPI.Services.Implementation
             _cache = new MemoryCache(cacheOptions);
         }
 
-        public CachedRefreshTokenRepository(MemoryCacheOptions cacheOptions)
+        public CachedRefreshTokenRepository(IOptions<MemoryCacheOptions> cacheOptions)
         {
             _cache = new MemoryCache(cacheOptions);
         }

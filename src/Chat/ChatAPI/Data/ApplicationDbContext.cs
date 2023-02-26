@@ -10,14 +10,13 @@ namespace ChatAPI.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
             base.Database.EnsureCreated();
+            // base.Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // User
             modelBuilder.Entity<User>()
                 .HasKey(u => u.Username);
-
         }
     }
 }

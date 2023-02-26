@@ -69,36 +69,15 @@ namespace ChatAPI.Services.Implementation
             // Поиск пользователя по username
             var user = await _userService.GetUserByUsername(loginRequest.Username);
             if (user == null)
-                throw new EntityNotFoundException("Wrong username or password!");
+                throw new SignInException("Wrong username or password!");
 
             // Проверка пароля
             bool isCorrectPassword = _passwordHasher.VerifyPassword(loginRequest.Password, user.PasswordHash);
             if (!isCorrectPassword)
-                throw new Exception("Wrong username or password!");
+                throw new SignInException("Wrong username or password!");
 
-            string accessToken = _tokenService.GenerateAccessToken(user);
-            string refreshToken = _tokenService.GenerateRefreshToken(user);
-            var currentDateTime = DateTime.UtcNow;
-
-            _inMemoryRefreshTokenRepository.Set(
-                refreshToken,
-                new RefreshToken()
-                {
-                    ExpirationDateTime = currentDateTime.AddMinutes(_authConfiguration.RefreshTokenExpirationMinutes),
-                    Token = refreshToken,
-                    Username = user.Username,
-                },
-                expiresAfter: TimeSpan.FromMinutes(_authConfiguration.RefreshTokenExpirationMinutes)
-            );
-
-            return new AuthenticatedUserResponseDTO
-            (
-               user: _mapper.Map<User, UserDTO>(user),
-               accessToken: accessToken,
-               accessTokenExpirationMinutes: _authConfiguration.AccessTokenExpirationMinutes,
-               refreshToken: refreshToken,
-               refreshTokenExpirationMinutes: _authConfiguration.RefreshTokenExpirationMinutes
-            );
+            // Генерация токенов
+            return this.GenerateTokens(user);
         }
 
         public async Task<AuthenticatedUserResponseDTO> RefreshToken(RefreshTokenRequestDTO refreshTokenRequest)
@@ -107,20 +86,26 @@ namespace ChatAPI.Services.Implementation
             if (!_inMemoryRefreshTokenRepository.TryGetValue(refreshTokenRequest.RefreshToken, out RefreshToken? token)) 
             {
                 // Если токен не найден
-                throw new EntityNotFoundException("Invalid refresh token");
+                throw new EntityNotFoundException("Invalid refresh token!");
             }
 
             // Удаление старого токена из кэша
             _inMemoryRefreshTokenRepository.Remove(token.Token);
 
             // Поиск пользователя
-            User user = await _userService.GetUserByUsername(token.Username);
+            User user = await _userService.GetUserByUsername(token.OwnerUsername);
             if (user == null)
             {
                 // Если пользователь не найден
-                throw new EntityNotFoundException("User not found");
+                throw new EntityNotFoundException("User not found!");
             }
 
+            // Генерация токенов
+            return this.GenerateTokens(user);
+        }
+
+        private AuthenticatedUserResponseDTO GenerateTokens(User user)
+        {
             string accessToken = _tokenService.GenerateAccessToken(user);
             string refreshToken = _tokenService.GenerateRefreshToken(user);
             var currentDateTime = DateTime.UtcNow;
@@ -131,19 +116,19 @@ namespace ChatAPI.Services.Implementation
                 {
                     ExpirationDateTime = currentDateTime.AddMinutes(_authConfiguration.RefreshTokenExpirationMinutes),
                     Token = refreshToken,
-                    Username = user.Username,
+                    OwnerUsername = user.Username,
                 },
                 expiresAfter: TimeSpan.FromMinutes(_authConfiguration.RefreshTokenExpirationMinutes)
             );
 
             return new AuthenticatedUserResponseDTO
-           (
-               user: _mapper.Map<User, UserDTO>(user),
-               accessToken: accessToken,
-               accessTokenExpirationMinutes: _authConfiguration.AccessTokenExpirationMinutes,
-               refreshToken: refreshToken,
-               refreshTokenExpirationMinutes: _authConfiguration.RefreshTokenExpirationMinutes
-           );
+            (
+                user: _mapper.Map<User, UserDTO>(user),
+                accessToken: accessToken,
+                accessTokenExpirationMinutes: _authConfiguration.AccessTokenExpirationMinutes,
+                refreshToken: refreshToken,
+                refreshTokenExpirationMinutes: _authConfiguration.RefreshTokenExpirationMinutes
+            );
         }
     }
 }
