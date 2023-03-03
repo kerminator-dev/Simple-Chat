@@ -2,6 +2,8 @@ using ChatAPI.Extensions;
 using ChatAPI.Hubs;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,13 @@ builder.Services.AddSignalR().AddJsonProtocol();
 builder.Services.AddScoped<ChatHub>();
 builder.Services.AddScoped<IMessagingService, MessagingService>();
 builder.Services.AddCustomRateLimit(builder.Configuration);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -34,17 +43,12 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseCors(builder =>
-{
-    builder.AllowAnyHeader()
-           .AllowAnyMethod()
-           .AllowAnyOrigin();
-});
+app.UseCors("CorsPolicy");
 app.MapHub<ChatHub>("/chathub", options =>
 {
     options.TransportMaxBufferSize = 32;
     options.ApplicationMaxBufferSize = 32;
-    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+    options.Transports = HttpTransportType.ServerSentEvents;
 });
 
 app.Run();
