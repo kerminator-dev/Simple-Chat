@@ -1,5 +1,5 @@
-﻿using ChatAPI.DTOs.Requests;
-using ChatAPI.DTOs.Responses;
+﻿using Chat.Core.DTOs.Requests;
+using Chat.Core.DTOs.Responses;
 using ChatAPI.Exceptions;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
@@ -77,11 +77,11 @@ namespace ChatAPI.Controllers
             }
             catch (SignInException ex)
             {
-                return Unauthorized(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (EntityNotFoundException ex)
             {
-                return Unauthorized(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception)
             {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using ChatAPI.DTOs;
-using ChatAPI.DTOs.Requests;
-using ChatAPI.DTOs.Responses;
+using Chat.Core.DTOs;
+using Chat.Core.DTOs.Requests;
+using Chat.Core.DTOs.Responses;
 using ChatAPI.Entities;
 using ChatAPI.Exceptions;
 using ChatAPI.Models;

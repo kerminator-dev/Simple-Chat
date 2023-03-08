@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Khd1lsAiyiFjRn7JZ0X2flZbsn1TRGIvidCyrNph2SLHyR+UJ97gn3pcHXNBnbV8IchZIjv+4pxzDTn7YR8EcQ==",
+  "dgSpecHash": "Yt9zqJrMha0EAV0wAAplPu/qX/8XeWzIEX8VOxfHGVoMovcZz2NRubT77Sk9k3+aG9ynoQZOf01tdrrm6Mitsg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\WPFClient\\WPFClient.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\WPFClient\\Chat.WPFClient.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\handycontrol\\3.4.0\\handycontrol.3.4.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",

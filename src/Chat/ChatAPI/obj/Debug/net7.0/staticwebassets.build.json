@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "aoukMGvX3c+FyMyECRwqT3wyMHA78pzlKcekEXjLT8E=",
-  "Source": "ChatAPI",
-  "BasePath": "_content/ChatAPI",
+  "Hash": "t/nidgu6p7C1Ig+26P95US6jdE/mSX8ypyI1iid+TKc=",
+  "Source": "Chat.WebAPI",
+  "BasePath": "_content/Chat.WebAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

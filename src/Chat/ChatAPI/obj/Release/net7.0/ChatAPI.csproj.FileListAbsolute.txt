@@ -98,3 +98,5 @@ C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\ChatAPI\obj\Release\net7.
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\ChatAPI\obj\Release\net7.0\ChatAPI.pdb
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\ChatAPI\obj\Release\net7.0\ChatAPI.genruntimeconfig.cache
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\ChatAPI\obj\Release\net7.0\ref\ChatAPI.dll
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\ChatAPI\bin\Release\net7.0\Chat.Core.dll
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\ChatAPI\bin\Release\net7.0\Chat.Core.pdb

@@ -1,5 +1,5 @@
-﻿using ChatAPI.DTOs.Notifications;
-using ChatAPI.DTOs.Requests;
+﻿using Chat.Core.DTOs.Notifications;
+using Chat.Core.DTOs.Requests;
 using ChatAPI.Entities;
 using ChatAPI.Exceptions;
 using ChatAPI.Hubs;

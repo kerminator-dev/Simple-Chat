@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ChatAPI.DTOs;
+using Chat.Core.DTOs;
 using ChatAPI.Entities;
 
 namespace ChatAPI.Mappings

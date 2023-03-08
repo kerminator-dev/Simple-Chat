@@ -251,9 +251,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\WPFClient\\WPFClient.csproj",
-      "projectName": "WPFClient",
-      "projectPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\WPFClient\\WPFClient.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\WPFClient\\Chat.WPFClient.csproj",
+      "projectName": "Chat.WPFClient",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\WPFClient\\Chat.WPFClient.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\WPFClient\\obj\\",
       "projectStyle": "PackageReference",

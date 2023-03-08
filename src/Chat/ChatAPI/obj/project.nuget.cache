@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lVw4xYEbj3wpF2D7CGquS+gKqab8WRve3e2HDbVt0PrNk+mgcWKOm7/e5k40zVOZ3EVenmdBP5TDje1xhG8rLw==",
+  "dgSpecHash": "O4CF2old+3budiqOelZ03OTPEDcojcvbzXnK2mf9OrSti0kxwATxrHwmUTtjRhrQLglqO1JalGouu3Tjd6tQ4g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\ChatAPI\\ChatAPI.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\ChatAPI\\Chat.WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

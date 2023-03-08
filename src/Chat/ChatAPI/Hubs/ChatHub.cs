@@ -1,5 +1,5 @@
-﻿using ChatAPI.DTOs.Notifications;
-using ChatAPI.Enums;
+﻿using Chat.Core.DTOs.Notifications;
+using Chat.Core.Enums;
 using ChatAPI.Mappings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

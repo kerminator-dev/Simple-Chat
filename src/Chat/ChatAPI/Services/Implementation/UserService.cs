@@ -1,4 +1,4 @@
-﻿using ChatAPI.DTOs.Requests;
+﻿using Chat.Core.DTOs.Requests;
 using ChatAPI.Entities;
 using ChatAPI.Exceptions;
 using ChatAPI.Services.Interfaces;
