@@ -2,18 +2,13 @@
 using Chat.WebAPI.Extensions;
 using Chat.WebAPIClientLibrary.Exceptions;
 using Chat.WebAPIClientLibrary.Implementation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chat.WebAPIClientLibrary.Services
 {
     public class MessagingManager : IMessagingManager
     {
-        private readonly string _sendMessageRoute;
+        protected readonly string _sendMessageRoute;
         public MessagingManager(Uri host)
         {
             // Роуты к API-методам

@@ -66,18 +66,29 @@ namespace ChatAPI.Services.Implementation
 
         public async Task<AuthenticatedUserResponseDTO> AuthenticateUser(LoginRequestDTO loginRequest)
         {
-            // Поиск пользователя по username
-            var user = await _userService.GetUserByUsername(loginRequest.Username);
-            if (user == null)
-                throw new SignInException("Wrong username or password!");
+            try
+            {
+                // Поиск пользователя по username
+                var user = await _userService.GetUserByUsername(loginRequest.Username);
+                if (user == null)
+                    throw new EntityNotFoundException();
 
-            // Проверка пароля
-            bool isCorrectPassword = _passwordHasher.VerifyPassword(loginRequest.Password, user.PasswordHash);
-            if (!isCorrectPassword)
-                throw new SignInException("Wrong username or password!");
+                // Проверка пароля
+                var isCorrectPassword = _passwordHasher.VerifyPassword(loginRequest.Password, user.PasswordHash);
+                if (!isCorrectPassword)
+                    throw new EntityNotFoundException();
 
-            // Генерация токенов
-            return this.GenerateTokens(user);
+                // Генерация токенов
+                return this.GenerateTokens(user);
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new SignInException("Wrong username or password!");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<AuthenticatedUserResponseDTO> RefreshToken(RefreshTokenRequestDTO refreshTokenRequest)

@@ -1,4 +1,5 @@
 ﻿using Chat.Core.DTOs.Requests;
+using Chat.WebAPI.Exceptions;
 using ChatAPI.Entities;
 using ChatAPI.Exceptions;
 using ChatAPI.Services.Interfaces;
@@ -29,7 +30,7 @@ namespace ChatAPI.Services.Implementation
             }
 
             // Если в кэше не оказалось, то поиск в БД
-            user = await _userRepository.GetByUsername(username);
+            user = await _userRepository.Get(username);
 
             if (user == null)
             {
@@ -49,6 +50,12 @@ namespace ChatAPI.Services.Implementation
 
         public async Task RegisterUser(RegisterRequestDTO registerRequest)
         {
+            bool userExists = await this.IsUserExists(registerRequest.Username);
+            if (userExists)
+            {
+                throw new SignUpException("User with this username already exists.");
+            }
+
             string passwordHash = _passwordHasher.HashPassword(registerRequest.Password);
 
             var user = new User()
@@ -92,7 +99,7 @@ namespace ChatAPI.Services.Implementation
             if (_cachedUsersRepository.TryGetValue(username, out _)) 
                 return true;
 
-            var user = await _userRepository.GetByUsername(username);
+            var user = await _userRepository.Get(username);
 
             return user != null;
         }

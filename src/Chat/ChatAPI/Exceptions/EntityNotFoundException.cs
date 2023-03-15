@@ -8,5 +8,8 @@
 
         }
 
+        public EntityNotFoundException()
+        { }
+
     }
 }

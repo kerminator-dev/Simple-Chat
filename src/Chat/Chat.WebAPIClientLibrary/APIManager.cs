@@ -13,10 +13,13 @@ namespace Chat.WebAPIClientLibrary
         private string _accessToken;
         private string _refreshToken;
 
-        protected IUserManager _userManager;
-        protected IMessagingManager _messagingManager;
+        internal IAuthManager _authManager;
+        internal IUserManager _userManager;
+        internal IMessagingManager _messagingManager;
+
         public APIManager(Uri host)
         {
+            _authManager = new AuthManager(host);
             _userManager = new UserManager(host);
             _messagingManager = new MessagingManager(host);
 
@@ -29,7 +32,7 @@ namespace Chat.WebAPIClientLibrary
         {
             try
             {
-                return await _userManager.TryRegister(registerRequest);
+                return await _authManager.TryRegister(registerRequest);
             }
             catch (Exception)
             {
@@ -47,7 +50,7 @@ namespace Chat.WebAPIClientLibrary
         {
             try
             {
-                var authInfo = await _userManager.TryLogin(loginRequest);
+                var authInfo = await _authManager.TryLogin(loginRequest);
 
                 UpdateTokens(authInfo.AccessToken, authInfo.RefreshToken);
 
@@ -63,7 +66,7 @@ namespace Chat.WebAPIClientLibrary
         {
             try
             {
-                var authInfo = await _userManager.TryRefreshToken(_refreshToken);
+                var authInfo = await _authManager.TryRefreshToken(_refreshToken);
 
                 UpdateTokens(authInfo.AccessToken, authInfo.RefreshToken);
 

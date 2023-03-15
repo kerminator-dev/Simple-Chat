@@ -5,6 +5,7 @@ using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ChatAPI.Controllers
 {
@@ -27,15 +28,16 @@ namespace ChatAPI.Controllers
         {
             User user = await _authenticationService.RetrieveUserFromHTTPContex(HttpContext);
             if (user == null)
-            {
-                return Unauthorized();
-            }
+                return Unauthorized("User not found!");
 
             try
             {
+                // Отправка сообщения
                 await _messagingService.SendMessage(user, messageRequestDTO);
+
+                return Ok();
             }
-            catch (MessageNotSendException ex)
+            catch (MessageNotSentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -49,10 +51,8 @@ namespace ChatAPI.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-
-            return Ok();
         }
     }
 }

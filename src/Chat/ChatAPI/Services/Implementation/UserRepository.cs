@@ -3,7 +3,7 @@ using ChatAPI.Entities;
 using ChatAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatAPI.Services.Implementation
+namespace Chat.WebAPI.Services.Implementation
 {
     public class UserRepository : IUserRepository
     {
@@ -28,7 +28,7 @@ namespace ChatAPI.Services.Implementation
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<User> GetByUsername(string username)
+        public async Task<User> Get(string username)
         {
             return await _dbContext
                     .Users

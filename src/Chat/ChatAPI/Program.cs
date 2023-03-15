@@ -1,3 +1,4 @@
+using Chat.WebAPI.Services.Implementation;
 using ChatAPI.Extensions;
 using ChatAPI.Hubs;
 using ChatAPI.Services.Implementation;
@@ -7,7 +8,11 @@ using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressModelStateInvalidFilter = true;
+                });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationDbContext(builder.Configuration);
@@ -19,9 +24,9 @@ builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMessagingService, MessagingService>();
 builder.Services.AddSignalR().AddJsonProtocol();
 builder.Services.AddScoped<ChatHub>();
-builder.Services.AddScoped<IMessagingService, MessagingService>();
 builder.Services.AddCustomRateLimit(builder.Configuration);
 builder.Services.AddCors(options =>
 {
@@ -44,7 +49,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseCors("CorsPolicy");
-app.MapHub<ChatHub>("/chathub", options =>
+app.MapHub<ChatHub>("/Hub", options =>
 {
     options.TransportMaxBufferSize = 32;
     options.ApplicationMaxBufferSize = 32;

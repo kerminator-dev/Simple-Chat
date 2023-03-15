@@ -2,7 +2,7 @@
 using ChatAPI.Services.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace ChatAPI.Services.Implementation
+namespace Chat.WebAPI.Services.Implementation
 {
     public class CachedUserRepository : ICache<string, User>
     {
@@ -36,7 +36,7 @@ namespace ChatAPI.Services.Implementation
             if (_cache.TryGetValue(key, out value))
                 return true;
 
-            value = default(User); 
+            value = default;
             return false;
         }
 

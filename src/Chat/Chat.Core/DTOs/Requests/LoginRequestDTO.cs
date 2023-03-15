@@ -7,7 +7,7 @@ namespace Chat.Core.DTOs.Requests
         [Required(ErrorMessage = "Username is required!")]
         [MinLength(3, ErrorMessage = "Min username length is 3 characters!")]
         [MaxLength(16, ErrorMessage = "Max username length is 16 characters!")]
-        [RegularExpression(@"^[a-zA-Z0-9]{3,16}$")]
+        [RegularExpression(@"^[a-zA-Z0-9]{0,}$", ErrorMessage = "Only alphanumeric characters are available for the username!")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required!")]
