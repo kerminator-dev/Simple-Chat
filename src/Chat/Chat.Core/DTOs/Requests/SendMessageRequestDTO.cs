@@ -4,8 +4,6 @@ namespace Chat.Core.DTOs.Requests
 {
     public class SendMessageRequestDTO
     {
-        [Required(ErrorMessage = "Message ID is required!")]
-        public string Id { get; set; }
 
         [Required(ErrorMessage = "Receiver is required!")]
         public string Receiver { get; set; }

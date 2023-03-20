@@ -1,31 +1,150 @@
-﻿using Chat.Core.DTOs.Requests;
-using Chat.WebAPIClientLibrary.Exceptions;
-using Chat.WebAPIClientLibrary.Services;
-using ChatAPI.Exceptions;
-using Microsoft.Extensions.Logging;
+﻿using Chat.Core.DTOs;
+using Chat.Core.DTOs.Notifications;
+using Chat.Core.DTOs.Requests;
+using Chat.WebAPIClientLibrary.Exceptions.Client;
+using Chat.WebAPIClientLibrary.Exceptions.Internal;
+using Chat.WebAPIClientLibrary.Services.Implementation;
+using Chat.WebAPIClientLibrary.Services.Interfaces;
+using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Chat.WebAPIClientLibrary
 {
-    public class APIManager
+    public sealed class APIManager
     {
-        protected ILogger _logger;
+        // Endpoint SignalR-хаба
+        private const string HUB_ENDPOINT = "Hub";
 
-        private string _accessToken;
-        private string _refreshToken;
+        // Подключение к SignalR-хабу
+        private Microsoft.AspNetCore.SignalR.Client.HubConnection _hubConnection;
 
-        internal IAuthManager _authManager;
-        internal IUserManager _userManager;
-        internal IMessagingManager _messagingManager;
+        // События хаба
+        /// <summary>
+        /// При закрытии подключения
+        /// </summary>
+        public event Func<Exception?, Task>? OnConnectionClosed
+        {
+            add
+            {
+                _hubConnection.Closed += value;
+            }
+            remove
+            {
+                _hubConnection.Closed -= value;
+            }
+        }
 
-        public APIManager(Uri host)
+        /// <summary>
+        /// При успешном переподключении
+        /// </summary>
+        public event Func<string?, Task>? OnReconnected
+        {
+            add
+            {
+                _hubConnection.Reconnected += value;
+            }
+            remove
+            {
+                _hubConnection.Reconnected -= value;
+            }
+        }
+
+        /// <summary>
+        /// При попытке переподключения
+        /// </summary>
+        public event Func<Exception?, Task>? OnReconnecting
+        {
+            add
+            {
+                _hubConnection.Reconnecting += value;
+            }
+            remove
+            {
+                _hubConnection.Reconnecting -= value;
+            }
+        }
+
+        /// <summary>
+        /// При получении нового сообщения
+        /// </summary>
+        public event Action<MessageNotificationDTO> OnMessageReceived;
+
+        /// <summary>
+        /// При получении уведомления о новом активном пользователе хаба
+        /// </summary>
+        public event Action<string> OnUserGetsOnline;
+
+        /// <summary>
+        /// При получении уведомления о отключённом пользователе хаба
+        /// </summary>
+        public event Action<string> OnUserGetsOffline;
+
+        /// <summary>
+        /// При получении уведомления о списке активных пользователей хаба
+        /// </summary>
+        public Action<ActiveUsersNotificationDTO> OnActiveUsersNotification;
+
+        #region Менеджеры для работы с контроллерами
+        private IAuthManager _authManager;
+        private IUserManager _userManager;
+        private IMessagingManager _messagingManager;
+        #endregion
+
+        public APIManager(string host)
         {
             _authManager = new AuthManager(host);
             _userManager = new UserManager(host);
             _messagingManager = new MessagingManager(host);
 
-            // Токены
-            _accessToken  = string.Empty;
-            _refreshToken = string.Empty;
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl($"{host}{HUB_ENDPOINT}", options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(_authManager.AccessToken);
+                    options.Transports = HttpTransportType.ServerSentEvents;
+                })
+                .WithAutomaticReconnect()
+                .Build();
+
+            _hubConnection.Reconnecting += OnHubReconnecting;
+
+            // Подписка на события
+            _hubConnection.On<string>("UserGetsOffline", (username) =>
+            {
+                OnUserGetsOffline?.Invoke(username);
+            });
+
+            _hubConnection.On<string>("UserGetsOnline", (username) =>
+            {
+                OnUserGetsOnline?.Invoke(username);
+            });
+
+            _hubConnection.On<MessageNotificationDTO>("NewMessage", (message) =>
+            {
+                OnMessageReceived?.Invoke(message);
+            });
+
+            _hubConnection.On<ActiveUsersNotificationDTO>("ActiveUsers", (message) =>
+            {
+                OnActiveUsersNotification?.Invoke(message);
+            });
+        }
+
+        private async Task OnHubReconnecting(Exception? exception)
+        {
+            if (exception is HttpRequestException)
+            {
+                var statusCode = (exception as HttpRequestException).StatusCode;
+
+                if (statusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    try
+                    {
+                        await this.TryRefreshToken();
+                    }
+                    catch (Exception) { }
+                }
+            }
         }
 
         public async Task<bool> TryRegister(RegisterRequestDTO registerRequest)
@@ -34,87 +153,121 @@ namespace Chat.WebAPIClientLibrary
             {
                 return await _authManager.TryRegister(registerRequest);
             }
-            catch (Exception)
+            catch (ClientErrorStatusCodeException ex)
+            {
+                throw new SignUpException(ex.Message);
+            }
+            catch (UnexpectedStatusCodeException)
+            {
+                throw new SignUpException("Unknown error!");
+            }
+        }
+
+        public async Task<UserDTO> TryLogin(LoginRequestDTO loginRequest)
+        {
+            try
+            {
+                // Выполнение входа
+                var user = await _authManager.TryLogin(loginRequest);
+
+                // Подключение к хабу
+                await _hubConnection.StartAsync();
+
+                return user;
+            }
+            catch (ClientErrorStatusCodeException ex)
+            {
+                throw new SignInException(ex.Message);
+            }
+            catch (UnexpectedStatusCodeException)
+            {
+                throw new SignInException("Unknown error!");
+            }
+        }
+
+        private async Task<bool> TryRefreshToken()
+        {
+            try
+            {
+                return await _authManager.TryRefreshToken();
+            }
+            catch (Exception ex)
             {
                 return false;
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loginRequest"></param>
-        /// <returns></returns>
-        /// <exception cref="UnexpectedHttpResponseException"></exception>
-        public async Task<bool> TryLogin(LoginRequestDTO loginRequest)
+        public async Task<bool> TrySendMessageAsync(SendMessageRequestDTO sendMessageRequestDTO)
         {
             try
             {
-                var authInfo = await _authManager.TryLogin(loginRequest);
-
-                UpdateTokens(authInfo.AccessToken, authInfo.RefreshToken);
-
-                return true;
+                // Отправка сообщения
+                return await _messagingManager.TrySendMessageAsync(sendMessageRequestDTO, _authManager.AccessToken);
             }
-            catch (SignInException ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<bool> TryRefreshToken()
-        {
-            try
-            {
-                var authInfo = await _authManager.TryRefreshToken(_refreshToken);
-
-                UpdateTokens(authInfo.AccessToken, authInfo.RefreshToken);
-
-                return true;
-            }
-            catch (UnexpectedHttpResponseException ex)
-            {
-                throw ex;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> TrySendMessage(SendMessageRequestDTO sendMessageRequestDTO)
-        {
-            try
-            {
-                return await _messagingManager.TrySendMessage(sendMessageRequestDTO, _accessToken);
-            }
-            catch (UnauthorizedException ex)
+            catch (UnauthorizedStatusCodeException)
             {
                 try
                 {
                     // Переполучение токенов
-                    bool refreshed = await this.TryRefreshToken();
+                    bool success = await this.TryRefreshToken();
 
-                    if (refreshed)
-                        return await _messagingManager.TrySendMessage(sendMessageRequestDTO, _accessToken);
+                    // Повторная попытка отправки сообщения
+                    if (success)
+                        return await _messagingManager.TrySendMessageAsync(sendMessageRequestDTO, _authManager.AccessToken);
 
                     return false;
                 }
-                catch (Exception)
+                catch (UnauthorizedStatusCodeException ex)
                 {
-                    return false;
+                    throw new UnauthorizedException(ex.Message);
+                }
+                catch (ClientErrorStatusCodeException ex)
+                {
+                    throw new Exceptions.Client.MessageNotSentException(ex.Message);
+                }
+                catch (UnexpectedStatusCodeException)
+                {
+                    throw new Exceptions.Client.MessageNotSentException("Unknown error!");
                 }
             }
-            catch (Exception)
+            catch (ClientErrorStatusCodeException ex)
             {
-                return false;
+                throw new MessageNotSentException(ex.Message);
+            }
+            catch (UnexpectedStatusCodeException) 
+            { 
+                throw new MessageNotSentException("Unknown error!"); 
             }
         }
 
-        protected void UpdateTokens(string accessToken, string refreshToken)
+        public async Task<bool> TryDeleteUser()
         {
-            _accessToken = accessToken;
-            _refreshToken = refreshToken;
+            try
+            {
+                return await _userManager.TryDeleteUser(_authManager.AccessToken);
+            }
+            catch(UnauthorizedStatusCodeException)
+            {
+                try
+                {
+                    // Переполучение токенов
+                    bool success = await _authManager.TryRefreshToken();
+
+                    // Повторная попытка удаления акканта
+                    if (success)
+                        return await _userManager.TryDeleteUser(_authManager.AccessToken);
+
+                    return false;
+                }
+                catch (UnauthorizedStatusCodeException ex)
+                {
+                    throw new UnauthorizedException(ex.Message);
+                }
+                catch (Exception)
+                {
+                    throw new UserNotDeletedException("Unknown error!");
+                }
+            }
         }
     }
 }

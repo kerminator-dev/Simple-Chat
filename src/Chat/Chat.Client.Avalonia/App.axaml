@@ -1,0 +1,13 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Chat.Client.Avalonia"
+			 xmlns:themes="using:Material.Styles.Themes;assembly=Material.Styles"
+             x:Class="Chat.Client.Avalonia.App">
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+		<themes:MaterialTheme/>
+    </Application.Styles>
+</Application>

@@ -1,15 +1,8 @@
-C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPI.deps.json
-C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPI.runtimeconfig.json
-C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\appsettings.Development.json
-C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\appsettings.json
-C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPI.exe
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPIClientLibrary.deps.json
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPIClientLibrary.dll
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPIClientLibrary.pdb
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.Core.dll
-C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPI.dll
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.Core.pdb
-C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\bin\Debug\net7.0\Chat.WebAPI.pdb
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\obj\Debug\net7.0\Chat.WebAPIClientLibrary.csproj.AssemblyReference.cache
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\obj\Debug\net7.0\Chat.WebAPIClientLibrary.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.WebAPIClientLibrary\obj\Debug\net7.0\Chat.WebAPIClientLibrary.AssemblyInfoInputs.cache

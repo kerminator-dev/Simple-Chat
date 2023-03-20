@@ -1,11 +1,5 @@
-﻿using Chat.Core.DTOs.Responses;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chat.WebAPIClientLibrary.Extensions
 {
@@ -17,6 +11,14 @@ namespace Chat.WebAPIClientLibrary.Extensions
             {
                 var content = await reader.ReadToEndAsync();
                 return JsonConvert.DeserializeObject<T>(content);
+            }
+        }
+
+        public async static Task<string> GetBodyString(this HttpWebResponse httpWebResponse)
+        {
+            using (var reader = new StreamReader(httpWebResponse.GetResponseStream()))
+            {
+                return await reader.ReadToEndAsync();
             }
         }
     }

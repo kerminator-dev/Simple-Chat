@@ -2,9 +2,6 @@
 {
     public class MessageNotificationDTO
     {
-        // Идентификатор сообщения
-        public string Id { get; set; }
-
         // Username отправителя
         public string Sender { get; set; }
 

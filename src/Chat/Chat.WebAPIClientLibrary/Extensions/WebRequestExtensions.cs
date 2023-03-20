@@ -5,15 +5,15 @@ namespace Chat.WebAPIClientLibrary.Extensions
 {
     public static class WebRequestExtensions
     {
-        public static async Task<TResponse> GetResponseAsync<TResponse>(this WebRequest webRequest)
+        public static async Task<WebResponse> GetWebResponseAsync(this WebRequest request)
         {
-            using (var response = await webRequest.GetResponseAsync())
+            try
             {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var content = await reader.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<TResponse>(content);
-                }
+                return await request.GetResponseAsync();
+            }
+            catch (WebException ex)
+            {
+                return ex.Response;
             }
         }
     }
