@@ -1,40 +1,16 @@
 {
   "version": 3,
   "targets": {
-    "net7.0-windows7.0": {
-      "DynamicData/7.13.1": {
-        "type": "package",
-        "dependencies": {
-          "System.Reactive": "5.0.0"
-        },
-        "compile": {
-          "lib/net7.0/DynamicData.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net7.0/DynamicData.dll": {
-            "related": ".xml"
-          }
-        }
-      },
+    "net6.0-windows7.0": {
       "MahApps.Metro.IconPacks.Material/4.11.0": {
         "type": "package",
         "compile": {
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {
-            "related": ".pdb;.xml"
-          },
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {},
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {}
         },
         "runtime": {
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {
-            "related": ".pdb;.xml"
-          },
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {},
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WPF"
@@ -46,14 +22,10 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0"
         },
         "compile": {
-          "lib/net7.0/Microsoft.Extensions.DependencyInjection.dll": {
-            "related": ".xml"
-          }
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll": {}
         },
         "runtime": {
-          "lib/net7.0/Microsoft.Extensions.DependencyInjection.dll": {
-            "related": ".xml"
-          }
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll": {}
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
@@ -62,89 +34,40 @@
       "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0": {
         "type": "package",
         "compile": {
-          "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
-            "related": ".xml"
-          }
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         },
         "runtime": {
-          "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
-            "related": ".xml"
-          }
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "ReactiveUI/18.4.26": {
+      "Newtonsoft.Json/12.0.2": {
         "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Chat.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "DynamicData": "7.13.1",
-          "Splat": "14.6.8"
+          "Newtonsoft.Json": "12.0.2"
         },
         "compile": {
-          "lib/net7.0/ReactiveUI.dll": {
-            "related": ".xml"
-          }
+          "bin/placeholder/Chat.Core.dll": {}
         },
         "runtime": {
-          "lib/net7.0/ReactiveUI.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Splat/14.6.8": {
-        "type": "package",
-        "compile": {
-          "lib/net7.0/Splat.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net7.0/Splat.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "System.Reactive/5.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net5.0/System.Reactive.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net5.0/System.Reactive.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net5.0/_._": {}
+          "bin/placeholder/Chat.Core.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "DynamicData/7.13.1": {
-      "sha512": "IlJh7MMpE7CEpVH1sm+hxyOijWdtwt2Bm6gnncP4Zgjq7D9f/gB7Bko+bYoBX/O+gaTGHtdHqwBmu2AX5O4MVw==",
-      "type": "package",
-      "path": "dynamicdata/7.13.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE/LICENSE",
-        "dynamicdata.7.13.1.nupkg.sha512",
-        "dynamicdata.nuspec",
-        "lib/net462/DynamicData.dll",
-        "lib/net462/DynamicData.xml",
-        "lib/net6.0/DynamicData.dll",
-        "lib/net6.0/DynamicData.xml",
-        "lib/net7.0/DynamicData.dll",
-        "lib/net7.0/DynamicData.xml",
-        "lib/netstandard2.0/DynamicData.dll",
-        "lib/netstandard2.0/DynamicData.xml",
-        "logo.png"
-      ]
-    },
     "MahApps.Metro.IconPacks.Material/4.11.0": {
       "sha512": "ZCuuxWHvXxl39XBYXk4PCMUVtw1pevT5AE1qsj7VRy2tRtDYbzHWYW0FbnH+Vf0rP7BogZrRlKns3zFEkDEjFQ==",
       "type": "package",
@@ -260,153 +183,80 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "ReactiveUI/18.4.26": {
-      "sha512": "39AplwnC5zu6yvLdE1vRI7YaLvVJyBSkMGCb3fb+3deGW5Q3EKybpqpNQzqx2nuBUAFYnULKWjbQqPdXssN3ow==",
+    "Newtonsoft.Json/12.0.2": {
+      "sha512": "rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
       "type": "package",
-      "path": "reactiveui/18.4.26",
+      "path": "newtonsoft.json/12.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "LICENSE/LICENSE",
-        "lib/monoandroid12.0/ReactiveUI.dll",
-        "lib/monoandroid12.0/ReactiveUI.pdb",
-        "lib/monoandroid12.0/ReactiveUI.xml",
-        "lib/monoandroid12.1/ReactiveUI.dll",
-        "lib/monoandroid12.1/ReactiveUI.pdb",
-        "lib/monoandroid12.1/ReactiveUI.xml",
-        "lib/monoandroid13.0/ReactiveUI.dll",
-        "lib/monoandroid13.0/ReactiveUI.pdb",
-        "lib/monoandroid13.0/ReactiveUI.xml",
-        "lib/net462/ReactiveUI.dll",
-        "lib/net462/ReactiveUI.xml",
-        "lib/net472/ReactiveUI.dll",
-        "lib/net472/ReactiveUI.xml",
-        "lib/net6.0-android31.0/ReactiveUI.dll",
-        "lib/net6.0-android31.0/ReactiveUI.xml",
-        "lib/net6.0-ios16.1/ReactiveUI.dll",
-        "lib/net6.0-ios16.1/ReactiveUI.xml",
-        "lib/net6.0-maccatalyst16.1/ReactiveUI.dll",
-        "lib/net6.0-maccatalyst16.1/ReactiveUI.xml",
-        "lib/net6.0-macos13.0/ReactiveUI.dll",
-        "lib/net6.0-macos13.0/ReactiveUI.xml",
-        "lib/net6.0-tvos16.1/ReactiveUI.dll",
-        "lib/net6.0-tvos16.1/ReactiveUI.xml",
-        "lib/net6.0/ReactiveUI.dll",
-        "lib/net6.0/ReactiveUI.xml",
-        "lib/net7.0-android33.0/ReactiveUI.dll",
-        "lib/net7.0-android33.0/ReactiveUI.xml",
-        "lib/net7.0-ios16.1/ReactiveUI.dll",
-        "lib/net7.0-ios16.1/ReactiveUI.xml",
-        "lib/net7.0-maccatalyst16.1/ReactiveUI.dll",
-        "lib/net7.0-maccatalyst16.1/ReactiveUI.xml",
-        "lib/net7.0-macos13.0/ReactiveUI.dll",
-        "lib/net7.0-macos13.0/ReactiveUI.xml",
-        "lib/net7.0-tvos16.1/ReactiveUI.dll",
-        "lib/net7.0-tvos16.1/ReactiveUI.xml",
-        "lib/net7.0/ReactiveUI.dll",
-        "lib/net7.0/ReactiveUI.xml",
-        "lib/netstandard2.0/ReactiveUI.dll",
-        "lib/netstandard2.0/ReactiveUI.xml",
-        "lib/tizen40/ReactiveUI.dll",
-        "lib/tizen40/ReactiveUI.xml",
-        "lib/xamarinios10/ReactiveUI.dll",
-        "lib/xamarinios10/ReactiveUI.xml",
-        "lib/xamarinmac20/ReactiveUI.dll",
-        "lib/xamarinmac20/ReactiveUI.xml",
-        "lib/xamarintvos10/ReactiveUI.dll",
-        "lib/xamarintvos10/ReactiveUI.xml",
-        "logo.png",
-        "reactiveui.18.4.26.nupkg.sha512",
-        "reactiveui.nuspec"
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.2.nupkg.sha512",
+        "newtonsoft.json.nuspec"
       ]
     },
-    "Splat/14.6.8": {
-      "sha512": "WdhGXUvsWPNPzBLc/LC1Q5jLOczupHDc+4Skl0JaTEuyoDjxxe/Dme8UjGTkCPYbhnVWEsEJprWqyWDY5RNB9A==",
-      "type": "package",
-      "path": "splat/14.6.8",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE/LICENSE",
-        "lib/net6.0/Splat.dll",
-        "lib/net6.0/Splat.xml",
-        "lib/net7.0/Splat.dll",
-        "lib/net7.0/Splat.xml",
-        "lib/netstandard2.0/Splat.dll",
-        "lib/netstandard2.0/Splat.xml",
-        "splat.14.6.8.nupkg.sha512",
-        "splat.nuspec"
-      ]
-    },
-    "System.Reactive/5.0.0": {
-      "sha512": "erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ==",
-      "type": "package",
-      "path": "system.reactive/5.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/net5.0/_._",
-        "build/netcoreapp3.1/System.Reactive.dll",
-        "build/netcoreapp3.1/System.Reactive.targets",
-        "build/netcoreapp3.1/System.Reactive.xml",
-        "buildTransitive/net5.0/_._",
-        "buildTransitive/netcoreapp3.1/System.Reactive.targets",
-        "lib/net472/System.Reactive.dll",
-        "lib/net472/System.Reactive.xml",
-        "lib/net5.0-windows10.0.19041/System.Reactive.dll",
-        "lib/net5.0-windows10.0.19041/System.Reactive.xml",
-        "lib/net5.0/System.Reactive.dll",
-        "lib/net5.0/System.Reactive.xml",
-        "lib/netcoreapp3.1/_._",
-        "lib/netstandard2.0/System.Reactive.dll",
-        "lib/netstandard2.0/System.Reactive.xml",
-        "lib/uap10.0.16299/System.Reactive.dll",
-        "lib/uap10.0.16299/System.Reactive.pri",
-        "lib/uap10.0.16299/System.Reactive.xml",
-        "system.reactive.5.0.0.nupkg.sha512",
-        "system.reactive.nuspec"
-      ]
+    "Chat.Core/1.0.0": {
+      "type": "project",
+      "path": "../Chat.Core/Chat.Core.csproj",
+      "msbuildProject": "../Chat.Core/Chat.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
-    "net7.0-windows7.0": [
+    "net6.0-windows7.0": [
+      "Chat.Core >= 1.0.0",
       "MahApps.Metro.IconPacks.Material >= 4.11.0",
-      "Microsoft.Extensions.DependencyInjection >= 7.0.0",
-      "ReactiveUI >= 18.4.26"
+      "Microsoft.Extensions.DependencyInjection >= 7.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\525.khokhlovns\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
+      "projectUniqueName": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
       "projectName": "Chat.Client.WPF",
-      "projectPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\obj\\",
+      "projectPath": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
+      "packagesPath": "C:\\Users\\525.khokhlovns\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\525.khokhlovns\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net7.0-windows"
+        "net6.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net7.0-windows7.0": {
-          "targetAlias": "net7.0-windows",
-          "projectReferences": {}
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "projectReferences": {
+            "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj": {
+              "projectPath": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -416,8 +266,8 @@
       }
     },
     "frameworks": {
-      "net7.0-windows7.0": {
-        "targetAlias": "net7.0-windows",
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
         "dependencies": {
           "MahApps.Metro.IconPacks.Material": {
             "target": "Package",
@@ -426,10 +276,6 @@
           "Microsoft.Extensions.DependencyInjection": {
             "target": "Package",
             "version": "[7.0.0, )"
-          },
-          "ReactiveUI": {
-            "target": "Package",
-            "version": "[18.4.26, )"
           }
         },
         "imports": [
@@ -438,8 +284,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -451,7 +296,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,0 +1,12 @@
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\bin\Debug\net6.0\Chat.Core.deps.json
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\bin\Debug\net6.0\Chat.Core.dll
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\bin\Debug\net6.0\ref\Chat.Core.dll
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\bin\Debug\net6.0\Chat.Core.pdb
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\Chat.Core.csproj.AssemblyReference.cache
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\Chat.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\Chat.Core.AssemblyInfoInputs.cache
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\Chat.Core.AssemblyInfo.cs
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\Chat.Core.csproj.CoreCompileInputs.cache
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\Chat.Core.dll
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\ref\Chat.Core.dll
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Core\obj\Debug\net6.0\Chat.Core.pdb

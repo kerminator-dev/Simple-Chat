@@ -1,5 +1,7 @@
 ﻿using System.Windows;
+using Chat.Client.WPF.Extensions;
 using Chat.Client.WPF.ViewModels;
+using Chat.Client.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Chat.Client.WPF
@@ -20,8 +22,10 @@ namespace Chat.Client.WPF
 
         protected void ConfigureServices(ServiceCollection services)
         {
+            services.AddNavigationService();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainWindowViewModel>();
+          
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -32,5 +36,7 @@ namespace Chat.Client.WPF
 
             base.OnStartup(e);
         }
+
+
     }
 }

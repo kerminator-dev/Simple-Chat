@@ -1,0 +1,11 @@
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\App.baml
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\MainWindow.g.cs
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\Views\Pages\ChatsPage.g.cs
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\App.g.cs
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\Chat.Client.WPF_MarkupCompile.cache
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\Chat.Client.WPF_MarkupCompile.lref
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\MainWindow.baml
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\Chat.Client.WPF.dll
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\ref\Chat.Client.WPF.dll
+C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net5.0-windows\Chat.Client.WPF.pdb

@@ -1,56 +1,56 @@
-﻿using Chat.Client.WPF.Models;
-using System.Collections.ObjectModel;
-using System.Windows.Media;
+﻿using Chat.Client.WPF.Commands;
+using Chat.Client.WPF.Services.Implementation.Navigation;
+using Chat.Client.WPF.Views.Pages;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Chat.Client.WPF.ViewModels
 {
     internal class MainWindowViewModel : ViewModelBase
     {
-        public ObservableCollection<ChatItemViewModel> Chats { get; set; }
-        public ChatItemViewModel Chat { get; set; } = new ChatItemViewModel()
+        private readonly NavigationService _navigationService;
+        private readonly ICommand _navigateToChats;
+        private readonly ICommand _navigateToSettings;
+
+        /// <summary>
+        /// Основная текущая выбранная страница
+        /// </summary>
+        public ContentControl? MainPage
         {
-            Username = "Admin",
-            AvatarFillColor = new SolidColorBrush(Color.FromRgb(229, 228, 255)),
-            AvatarForeColor = new SolidColorBrush(Color.FromRgb(132, 121, 208)),
-            ContentPreview = "some message here"
-        };
+            get => _navigationService.MainPage;
+        }
 
-        public MainWindowViewModel()
+        /// <summary>
+        /// Перейти к странице Чатов
+        /// </summary>
+        public ICommand NavigateToChats => _navigateToChats;
+
+        /// <summary>
+        /// Перейти к странице Настроек
+        /// </summary>
+        public ICommand NavigateToSettings => _navigateToSettings;
+
+        public MainWindowViewModel(NavigationService navigationService)
         {
-            Chats = new ObservableCollection<ChatItemViewModel>
-            {
-                new ChatItemViewModel()
-                {
-                    Username = "Admin",
-                    AvatarFillColor = new SolidColorBrush(Color.FromRgb(229, 228, 255)),
-                    AvatarForeColor = new SolidColorBrush(Color.FromRgb(132, 121, 208)),
-                    ContentPreview = "some message here"
-                },
+            _navigationService = navigationService;
 
-                new ChatItemViewModel()
+            _navigateToSettings = new RelayCommand
+            (
+                (parameter) =>
                 {
-                    AvatarFillColor = new SolidColorBrush(Color.FromRgb(220, 243, 255)),
-                    AvatarForeColor = new SolidColorBrush(Color.FromRgb(137, 207, 236)),
-                    Username = "Pussy",
-                    ContentPreview = "some message here"
+                    _navigationService.Navigate<SettingsPage>();
+                    OnPropertyChanged(nameof(MainPage));
                 }
-                ,
-                new ChatItemViewModel()
-                {
-                    Username = "Gray",
-                    AvatarFillColor = new SolidColorBrush(Color.FromRgb(246, 229, 214)),
-                    AvatarForeColor = new SolidColorBrush(Color.FromRgb(231, 160, 114)),
-                    ContentPreview = "some message here"
-                },
+            );
 
-                new ChatItemViewModel()
+            _navigateToChats = new RelayCommand
+            (
+                (parameter) =>
                 {
-                    AvatarFillColor = new SolidColorBrush(Color.FromRgb(249, 228, 245)),
-                    AvatarForeColor = new SolidColorBrush(Color.FromRgb(200, 119, 159)),
-                    Username = "Dan",
-                    ContentPreview = "some message here"
+                    _navigationService.Navigate<ChatsPage>();
+                    OnPropertyChanged(nameof(MainPage));
                 }
-            };
+            );
         }
     }
 }

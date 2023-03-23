@@ -1,0 +1,135 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:converters="clr-namespace:Chat.Client.WPF.Converters"
+                    xmlns:vm="clr-namespace:Chat.Client.WPF.ViewModels.UserControls"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:controls="clr-namespace:Chat.Client.WPF.Controls"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <converters:ColorConverter x:Key="ColorConverter"/>
+    <converters:OnlineStatusToColorConverter x:Key="OnlineStatusConverter"/>
+
+    <Brush x:Key="DefaultForegroundBrush">#8591b6</Brush>
+    <LinearGradientBrush x:Key="SelectedChatBackGradient" StartPoint="0.2,0" EndPoint="0.5,1">
+        <GradientStop Color="#5c82ff" Offset="0"/>
+        <GradientStop Color="#677fed" Offset="0.3"/>
+        <GradientStop Color="#4b9ad8" Offset="1"/>
+    </LinearGradientBrush>
+    <sys:Double x:Key="AvatarFontSize">18</sys:Double>
+
+    <ControlTemplate x:Key="ChatCard" TargetType="{x:Type controls:ChatControl}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <controls:Avatar Grid.Column="0"
+                              Grid.Row="0"
+                              Height="40"
+                              HorizontalAlignment="Left"
+                              Width="40"
+                              FontSize="{StaticResource AvatarFontSize}"
+                              Fill="{Binding AvatarFillColor}"
+                              Text="{Binding AvatarLabel}"
+                              Foreground="{Binding AvatarForeColor}"
+                              Grid.RowSpan="2"
+                              Margin="0 0 10 0"/>
+
+            <TextBlock Grid.Column="1"
+                           Grid.Row="0"
+                           FontSize="14"
+                           Foreground="#8691b2"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Left"
+                           Text="{Binding ContactUsername}"/>
+
+            <TextBlock Grid.Column="1"
+                           Grid.Row="1"
+                           Foreground="{StaticResource DefaultForegroundBrush}"
+                           HorizontalAlignment="Left"
+                           Text="{Binding ContentPreview}"/>
+        </Grid>
+    </ControlTemplate>
+    
+    <DataTemplate x:Key="ChatCardTemplate"
+                      DataType="{x:Type vm:ChatCardViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <controls:Avatar Grid.Column="0"
+                              Grid.Row="0"
+                              Height="40"
+                              HorizontalAlignment="Left"
+                              Width="40"
+                              FontSize="{StaticResource AvatarFontSize}"
+                              Fill="{Binding AvatarFillColor}"
+                              Text="{Binding AvatarLabel}"
+                              Foreground="{Binding AvatarForeColor}"
+                              Grid.RowSpan="2"
+                              Margin="0 0 10 0"/>
+
+            <TextBlock Grid.Column="1"
+                           Grid.Row="0"
+                           FontSize="14"
+                           Foreground="#8691b2"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Left"
+                           Text="{Binding ContactUsername}"/>
+
+            <TextBlock Grid.Column="1"
+                           Grid.Row="1"
+                           Foreground="{StaticResource DefaultForegroundBrush}"
+                           HorizontalAlignment="Left"
+                           Text="{Binding ContentPreview}"/>
+        </Grid>
+    </DataTemplate>
+
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="AnimatedItem">
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <ScaleTransform x:Name="transform" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemStyle" BasedOn="{StaticResource AnimatedItem}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Name="Border" Background="Transparent" CornerRadius="10" Margin="10 5 10 5" Padding="10" >
+                        <ContentPresenter HorizontalAlignment="Stretch"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#FFEAEAEA"/>
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

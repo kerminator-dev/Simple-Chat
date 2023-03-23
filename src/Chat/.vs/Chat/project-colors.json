@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "580b19f1-9127-43a7-a4a4-f02ca32f126f": {
+      "ProjectGuid": "580b19f1-9127-43a7-a4a4-f02ca32f126f",
+      "DisplayName": "Chat.Client.WPF",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Прочие файлы",
+      "ColorIndex": -1
+    },
+    "970fb570-a70d-4ef9-beb4-b68b383e2d21": {
+      "ProjectGuid": "970fb570-a70d-4ef9-beb4-b68b383e2d21",
+      "DisplayName": "Chat.WebAPI",
+      "ColorIndex": 1
+    },
+    "59d648e3-01e8-4275-9e8e-801af84264ed": {
+      "ProjectGuid": "59d648e3-01e8-4275-9e8e-801af84264ed",
+      "DisplayName": "Chat.Core",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}

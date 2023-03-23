@@ -2,24 +2,33 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="Controls\AvatarControl.xaml.cs">
+    <Compile Update="Views\UserControls\ChatContentControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\ChatListItemControl.xaml.cs">
+    <Compile Update="Views\Pages\SettingsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\MessageBubble.xaml.cs">
+    <Compile Update="Views\Pages\ChatsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\AvatarControl.xaml">
+    <Page Update="Styles\Pages\ChatsPageStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\ChatListItemControl.xaml">
+    <Page Update="Views\UserControls\ChatContentControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\MessageBubble.xaml">
+    <Page Update="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\ScrollViewer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\ChatsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
