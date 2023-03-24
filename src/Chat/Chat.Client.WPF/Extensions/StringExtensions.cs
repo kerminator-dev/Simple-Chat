@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chat.Client.WPF.Extensions
+﻿namespace Chat.Client.WPF.Extensions
 {
     internal static class StringExtensions
     {
@@ -23,7 +17,12 @@ namespace Chat.Client.WPF.Extensions
                     hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
                 }
 
-                return hash1 + (hash2 * 1566083941);
+                var hash = hash1 + (hash2 * 1566083941);
+
+                if (hash < 0)
+                    hash *= -1;
+
+                return hash;
             }
         }
     }

@@ -59,19 +59,20 @@ namespace Chat.Client.WPF.ViewModels.Pages
 
         private void OnNewChat(ChatEntity chat)
         {
+            GetColors(chat.ContactUsername, out var avatarfillColor, out var avatarForeColor);
+
             var avatarViewModel = new AvatarViewModel
             (
-                avatarLabel: chat.ContactUsername.Substring(0, 2)
+                avatarLabel: chat.ContactUsername.Substring(0, 2),
+                hash: chat.ContactUsername.GetStableHashCode()
             );
-
-            UpdateColors(chat.ContactUsername, ref avatarViewModel);
 
             var chatViewModel = new ChatCardViewModel(chat.ContactUsername, avatarViewModel);
 
             Chats.Add(chatViewModel);
         }
 
-        private void UpdateColors(string username, ref AvatarViewModel avatarViewModel)
+        private static void GetColors(string username, out SolidColorBrush fillColor, out SolidColorBrush foreColor)
         {
             int hash = username.GetStableHashCode(); // Convert.ToInt32(text); // string.GetHashCode(text);
 
@@ -79,8 +80,9 @@ namespace Chat.Client.WPF.ViewModels.Pages
                 hash *= -1;
 
             int index = hash % _colors.Length;
-            avatarViewModel.AvatarForeColor = new SolidColorBrush(_colors[index].ForeColor);
-            avatarViewModel.AvatarFillColor = new SolidColorBrush(_colors[index].BackColor);
+
+            fillColor = new SolidColorBrush(_colors[index].ForeColor);
+            foreColor = new SolidColorBrush(_colors[index].BackColor);
         }
 
         private static AvatarColors[] _colors = new AvatarColors[]

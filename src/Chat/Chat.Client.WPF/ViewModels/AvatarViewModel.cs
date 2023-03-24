@@ -4,13 +4,12 @@ namespace Chat.Client.WPF.ViewModels
 {
     internal class AvatarViewModel
     {
-        public string AvatarLabel { get; }
-        public Brush AvatarFillColor { get; set; }
-        public Brush AvatarForeColor { get; set; }
-
-        public AvatarViewModel(string avatarLabel)
+        public string Label { get; set; }
+        public int Hash { get; set; }
+        public AvatarViewModel(string avatarLabel, int hash)
         {
-            AvatarLabel = avatarLabel;
+            Label = avatarLabel;
+            Hash = hash;
         }
     }
 }

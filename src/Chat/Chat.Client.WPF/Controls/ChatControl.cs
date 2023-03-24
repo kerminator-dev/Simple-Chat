@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Chat.Client.WPF.Controls
 {
-    public class ChatControl : Control
+    public class ChatControl : ListBoxItem
     {
         public static readonly DependencyProperty AvatarProperty =
       DependencyProperty.Register("Avatar", typeof(Avatar), typeof(ChatControl));

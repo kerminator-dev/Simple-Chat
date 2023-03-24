@@ -14,7 +14,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/Generic.xaml"/>
-                <ResourceDictionary Source="/Themes/ScrollViewer.xaml"/>
                 <ResourceDictionary Source="/Styles/Pages/ChatsPageStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -76,7 +75,6 @@
                     Grid.Row="1" 
                     BorderThickness="0"
                     ItemsSource="{Binding Chats}"
-                    ItemTemplate="{StaticResource ChatCardTemplate}"
                     ItemContainerStyle="{StaticResource ListBoxItemStyle}">
 
                 </ListBox>
@@ -96,17 +94,14 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition MinHeight="40" Height="auto"/>
             </Grid.RowDefinitions>
-            <ScrollViewer>
-                <ListBox Background="Transparent"
+            <ListBox Background="Transparent"
                          Grid.Row="1"   
                          BorderThickness="0">
 
-                    <controls:Message Margin="20 10" FontSize="16" IsFromMe="False" Text="fsagasg" Background="White" Foreground="Gray" Time="14:04" TimeForeground="#FF949494" SecondaryBackground="#FFECECEC"/>
                     <controls:Message Margin="20 10" IsFromMe="True" Text="fsagaSHHSGGAGAsg" Foreground="White" Background="#778beb" Time="14:04" TimeForeground="White" SecondaryBackground="#556ee6"/>
                     <controls:Message Margin="20 10" FontSize="16" IsFromMe="False" Text="fsagasg" Background="White" Foreground="Gray" Time="14:04" TimeForeground="#FF949494" SecondaryBackground="#FFECECEC"/>
-                    <controls:Message Margin="20 10" IsFromMe="True" Text="fsagaSHHSGGAGAsg" Foreground="White" Background="#778beb" Time="14:04" TimeForeground="White" SecondaryBackground="#556ee6"/>
-                    </ListBox>
-            </ScrollViewer>
+                <controls:Message Margin="20 10" IsFromMe="True" Text="fsaDFAFSAGSAHGSHAgaSHHSGGAGAsgfsaDFAFSGAsg" Foreground="White" Background="#778beb" Time="14:04" TimeForeground="White" SecondaryBackground="#556ee6"/>
+                </ListBox>
 
             <StackPanel Orientation="Vertical"
                         Grid.Row="0">
@@ -136,30 +131,45 @@
                     MaxHeight="200"
                     Background="White"
                     CornerRadius="20"
-                    Margin="15 20 15 15">
+                    
+                    Margin="20 20 20 15">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="6"
-                                       ShadowDepth="0"
-                                      Color="LightGray"
+                                      ShadowDepth="4"
+                                      Color="#FFDEDEDE"
                                       Direction="270"/>
                 </Border.Effect>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0"/>
+                    <i:PackIconMaterial VerticalAlignment="Center" 
+                                        Grid.Column="0"
+                                        Name="Icon"
+                                        HorizontalAlignment="Center"
+                                        Margin="10 0 0 0"
+                                        Padding="0 0 0 0"
+                                        Kind="LinkVariant" 
+                                        Foreground="Gray"
+                                        Height="24" Width="24" />
+                    
+                    <TextBox Grid.Column="1"
+                             Style="{StaticResource MultilineTextBox}"/>
 
-                    <Button Grid.Column="1"
-                            Margin="10">
-                        <i:PackIconMaterial VerticalAlignment="Stretch" 
-                                            Name="Icon"
-                                            HorizontalAlignment="Stretch"
-                                            Padding="0 2 0 0"
-                                            Kind="Send" 
-                                            Height="20" Width="20" />
+                    <Button Grid.Column="2"
+                            Margin="4 4"
+                            Width="60"
+                            VerticalAlignment="Top"
+                            FontSize="15"
+                            Height="33"
+                            Foreground="White"
+                            Name="btnSaveEditedText" 
+                            Background="#5c82ff">
+                        Send
                     </Button>
                 </Grid>
                 

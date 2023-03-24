@@ -1,4 +1,5 @@
 ﻿using Chat.Client.WPF.Entities;
+using Chat.Client.WPF.Services;
 using Chat.Client.WPF.Services.Implementation;
 using Chat.Client.WPF.Services.Implementation.Navigation;
 using Chat.Client.WPF.Services.Interfaces;

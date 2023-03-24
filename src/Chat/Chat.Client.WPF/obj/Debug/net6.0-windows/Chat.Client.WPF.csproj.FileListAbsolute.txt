@@ -8,7 +8,6 @@ C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF
 C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\bin\Debug\net6.0-windows\MahApps.Metro.IconPacks.Material.dll
 C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net6.0-windows\Themes\ScrollViewer.baml
 C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net6.0-windows\Views\MainWindow.g.cs
 C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net6.0-windows\Views\Pages\ChatsPage.g.cs
 C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net6.0-windows\Views\Pages\SettingsPage.g.cs

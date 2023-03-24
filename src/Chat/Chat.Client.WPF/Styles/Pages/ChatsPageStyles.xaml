@@ -4,97 +4,67 @@
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
                     xmlns:controls="clr-namespace:Chat.Client.WPF.Controls"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <converters:ColorConverter x:Key="ColorConverter"/>
-    <converters:OnlineStatusToColorConverter x:Key="OnlineStatusConverter"/>
+    <converters:HashToAvatarForeColorConverter x:Key="ForeColorConverter"/>
+    <converters:HashToAvatarBackColorConverter x:Key="BackColorConverter"/>
+        <converters:OnlineStatusToColorConverter x:Key="OnlineStatusConverter"/>
 
     <Brush x:Key="DefaultForegroundBrush">#8591b6</Brush>
+    
+    <!--Фон выбранного чата-->
     <LinearGradientBrush x:Key="SelectedChatBackGradient" StartPoint="0.2,0" EndPoint="0.5,1">
         <GradientStop Color="#5c82ff" Offset="0"/>
-        <GradientStop Color="#677fed" Offset="0.3"/>
+        <GradientStop Color="#677fed" Offset="0.45"/>
         <GradientStop Color="#4b9ad8" Offset="1"/>
     </LinearGradientBrush>
     <sys:Double x:Key="AvatarFontSize">18</sys:Double>
-
-    <ControlTemplate x:Key="ChatCard" TargetType="{x:Type controls:ChatControl}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <controls:Avatar Grid.Column="0"
-                              Grid.Row="0"
-                              Height="40"
-                              HorizontalAlignment="Left"
-                              Width="40"
-                              FontSize="{StaticResource AvatarFontSize}"
-                              Fill="{Binding AvatarFillColor}"
-                              Text="{Binding AvatarLabel}"
-                              Foreground="{Binding AvatarForeColor}"
-                              Grid.RowSpan="2"
-                              Margin="0 0 10 0"/>
-
-            <TextBlock Grid.Column="1"
-                           Grid.Row="0"
-                           FontSize="14"
-                           Foreground="#8691b2"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Left"
-                           Text="{Binding ContactUsername}"/>
-
-            <TextBlock Grid.Column="1"
-                           Grid.Row="1"
-                           Foreground="{StaticResource DefaultForegroundBrush}"
-                           HorizontalAlignment="Left"
-                           Text="{Binding ContentPreview}"/>
-        </Grid>
-    </ControlTemplate>
     
-    <DataTemplate x:Key="ChatCardTemplate"
-                      DataType="{x:Type vm:ChatCardViewModel}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Name="Border" 
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="16">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                        <ColorAnimation To="#5c82ff"  
+                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
+                                    Duration="0:0:0.3">
+                            <ColorAnimation.EasingFunction>
+                                <QuarticEase EasingMode="EaseInOut"/>
+                            </ColorAnimation.EasingFunction>
+                        </ColorAnimation>
+                    </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            <EventTrigger RoutedEvent="Button.MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation To="Transparent"  
+                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
+                                    Duration="0:0:0.3">
+                            <ColorAnimation.EasingFunction>
+                                <QuarticEase EasingMode="EaseInOut"/>
+                            </ColorAnimation.EasingFunction>
+                        </ColorAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
 
-            <controls:Avatar Grid.Column="0"
-                              Grid.Row="0"
-                              Height="40"
-                              HorizontalAlignment="Left"
-                              Width="40"
-                              FontSize="{StaticResource AvatarFontSize}"
-                              Fill="{Binding AvatarFillColor}"
-                              Text="{Binding AvatarLabel}"
-                              Foreground="{Binding AvatarForeColor}"
-                              Grid.RowSpan="2"
-                              Margin="0 0 10 0"/>
+    </Style>
 
-            <TextBlock Grid.Column="1"
-                           Grid.Row="0"
-                           FontSize="14"
-                           Foreground="#8691b2"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Left"
-                           Text="{Binding ContactUsername}"/>
-
-            <TextBlock Grid.Column="1"
-                           Grid.Row="1"
-                           Foreground="{StaticResource DefaultForegroundBrush}"
-                           HorizontalAlignment="Left"
-                           Text="{Binding ContentPreview}"/>
-        </Grid>
-    </DataTemplate>
-
-    <Style TargetType="{x:Type ListBoxItem}" x:Key="AnimatedItem">
+    <!--Анимамация появления элемента-->
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemEmergingAnimation">
         <Setter Property="LayoutTransform">
             <Setter.Value>
                 <ScaleTransform x:Name="transform" />
@@ -113,20 +83,82 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemStyle" BasedOn="{StaticResource AnimatedItem}">
+    <Style TargetType="{x:Type TextBox}" x:Key="MultilineTextBox">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="15 10"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="MessageStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <controls:Message Margin="20 10" FontSize="16" IsFromMe="False" Text="fsagasg" Background="#556ee6" Foreground="Gray" Time="14:04" TimeForeground="#FF949494" SecondaryBackground="#FFECECEC"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemStyle" BasedOn="{StaticResource ListBoxItemEmergingAnimation}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border Name="Border" Background="Transparent" CornerRadius="10" Margin="10 5 10 5" Padding="10" >
-                        <ContentPresenter HorizontalAlignment="Stretch"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <controls:Avatar Grid.Column="0"
+                                             Grid.Row="0"
+                                             Height="40"
+                                             HorizontalAlignment="Left"
+                                             Width="40"
+                                             FontSize="{StaticResource AvatarFontSize}"
+                                             Fill="{Binding AvatarViewModel.Hash, Converter={StaticResource BackColorConverter}}"
+                                             Foreground="{Binding AvatarViewModel.Hash, Converter={StaticResource ForeColorConverter}}"
+                                             Text="{Binding AvatarViewModel.Label}"
+                                             FontWeight="Medium"
+                                             Grid.RowSpan="2"
+                                             Margin="0 0 10 0"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Name="ContactUsername"
+                                       Grid.Row="0"
+                                       FontSize="14"
+                                       Foreground="#8691b2"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Left"
+                                       Text="{Binding ContactUsername}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Name="ContentPreview"
+                                       Grid.Row="1"
+                                       Foreground="{StaticResource DefaultForegroundBrush}"
+                                       HorizontalAlignment="Left"
+                                       Text="{Binding ContentPreview}"/>
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="#FFEAEAEA"/>
                         </Trigger>
-                        
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedChatBackGradient}"/>
+                            <Setter TargetName="ContactUsername" Property="Foreground" Value="White"/>
+                            <Setter TargetName="ContentPreview" Property="Foreground" Value="White"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

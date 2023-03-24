@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\App.xaml
-7381247036
+6-334475427
 
-381275941806
+39-222099378
 200-1294482273
-Styles\Pages\ChatsPageStyles.xaml;Themes\Generic.xaml;Themes\ScrollViewer.xaml;Views\MainWindow.xaml;Views\Pages\ChatsPage.xaml;Views\Pages\SettingsPage.xaml;Views\UserControls\ChatContentControl.xaml;
+Styles\Pages\ChatsPageStyles.xaml;Themes\Generic.xaml;Views\MainWindow.xaml;Views\Pages\ChatsPage.xaml;Views\Pages\SettingsPage.xaml;Views\UserControls\ChatContentControl.xaml;
 
 False
 
