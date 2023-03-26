@@ -71,54 +71,9 @@ namespace Chat.Client.WPF.Controls
             set => SetValue(TimeForegroundProperty, value);
         }
 
-        public static readonly DependencyProperty IsFromMeProperty =
-            DependencyProperty.Register("IsFromMe", typeof(bool), typeof(ChatControl));
-
-
-        public bool IsFromMe
-        {
-            get => (bool)GetValue(IsFromMeProperty);
-            set
-            {
-                UpdateVisualsRelativeToSender(value);
-                SetValue(IsFromMeProperty, value);
-            }
-        }
-
         static Message()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Message), new FrameworkPropertyMetadata(typeof(Message)));
-        }
-
-        /// <summary>
-        /// Обновить стили относительно отправителя сообщения
-        /// </summary>
-        /// <param name="IsMessageFromMe"></param>
-        private void UpdateVisualsRelativeToSender(bool IsMessageFromMe)
-        {
-            if (IsMessageFromMe)
-            {
-                this.HorizontalAlignment = HorizontalAlignment.Right;
-                this.Margin = new Thickness
-                (
-                    40,
-                    Margin.Top,
-                    Margin.Right,
-                    Margin.Bottom
-                );
-
-            }
-            else
-            {
-                this.HorizontalAlignment = HorizontalAlignment.Left;
-                this.Margin = new Thickness
-                (
-                    Margin.Left,
-                    Margin.Top,
-                    40,
-                    Margin.Bottom
-                );
-            }
         }
     }
 }

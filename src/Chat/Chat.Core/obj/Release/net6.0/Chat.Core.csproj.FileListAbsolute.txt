@@ -1,0 +1,12 @@
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\bin\Release\net6.0\Chat.Core.deps.json
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\bin\Release\net6.0\Chat.Core.dll
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\bin\Release\net6.0\Chat.Core.pdb
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\Chat.Core.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\Chat.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\Chat.Core.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\Chat.Core.AssemblyInfo.cs
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\Chat.Core.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\Chat.Core.dll
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\refint\Chat.Core.dll
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\Chat.Core.pdb
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Core\obj\Release\net6.0\ref\Chat.Core.dll

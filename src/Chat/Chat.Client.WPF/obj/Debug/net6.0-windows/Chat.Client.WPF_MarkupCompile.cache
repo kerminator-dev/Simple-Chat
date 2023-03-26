@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net6.0-windows\
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Debug\net6.0-windows\
 Chat.Client.WPF
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\525.khokhlovns\source\repos\clones\Simple-Chat\src\Chat\Chat.Client.WPF\App.xaml
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\App.xaml
 6-334475427
 
-371867972767
-200-1294482273
+38890915392
+201-1197066213
 Styles\Pages\ChatsPageStyles.xaml;Themes\Generic.xaml;Views\MainWindow.xaml;Views\Pages\ChatsPage.xaml;Views\Pages\SettingsPage.xaml;Views\UserControls\ChatContentControl.xaml;
 
 False

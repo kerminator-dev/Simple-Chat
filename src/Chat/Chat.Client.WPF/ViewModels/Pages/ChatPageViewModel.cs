@@ -1,8 +1,16 @@
-﻿using Chat.Client.WPF.Entities;
+﻿using Chat.Client.WPF.Commands;
+using Chat.Client.WPF.Controls;
+using Chat.Client.WPF.Entities;
 using Chat.Client.WPF.Extensions;
 using Chat.Client.WPF.Models;
 using Chat.Client.WPF.ViewModels.UserControls;
+using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Chat.Client.WPF.ViewModels.Pages
@@ -12,6 +20,22 @@ namespace Chat.Client.WPF.ViewModels.Pages
         //public ChatListViewModel ChatList { get; set; }
         public ObservableCollection<ChatCardViewModel> Chats { get; set; }
 
+        private ChatCardViewModel _selectedChat;
+        public ChatCardViewModel SelectedChat
+        {
+            get => _selectedChat;
+            set
+            {
+                _selectedChat = value;
+
+                OnPropertyChanged(nameof(SelectedChat));
+                OnPropertyChanged(nameof(SelectedChat.Messages));
+            }
+        }
+
+        private ICommand _initializeViewModelCommand;
+        public ICommand InitializeViewModelCommand => _initializeViewModelCommand;
+
         public ChatPageViewModel()
         {
             Chats = new ObservableCollection<ChatCardViewModel>()
@@ -19,43 +43,46 @@ namespace Chat.Client.WPF.ViewModels.Pages
 
             };
 
-            OnNewChat(
-             new ChatEntity()
-             {
-                 ContactUsername = "Pussy"
-             });
-         
-             OnNewChat(new ChatEntity()
-             {
-                 ContactUsername = "Horn"
-             });
-             OnNewChat(new ChatEntity()
-                 {
-                     ContactUsername = "Admin"
-                 }
-             );
+            SelectedChat = default(ChatCardViewModel);
+
+            _initializeViewModelCommand = new RelayCommand((o) => OnLoad());
         }
 
-        //public ChatPageViewModel()
-        //{
-        //    ChatList = new ChatListViewModel();
 
-        //    OnNewChat(
-        //        new ChatEntity()
-        //        {
-        //            ContactUsername = "Pussy"
-        //        });
+        private async void OnLoad()
+        {
+            Chats.Clear();
 
-        //    OnNewChat(new ChatEntity()
-        //    {
-        //        ContactUsername = "Horn"
-        //    });
-        //    OnNewChat(new ChatEntity()
-        //        {
-        //            ContactUsername = "Admin"
-        //        }
-        //    );
-        //}
+            await Task.Delay(50);
+            OnNewChat(new ChatEntity()
+            {
+                ContactUsername = "Adam"
+            });
+            await Task.Delay(50);
+
+            OnNewChat(new ChatEntity()
+            {
+                ContactUsername = "Admin"
+            });
+
+            OnNewChat(new ChatEntity()
+            {
+                ContactUsername = "Pussy"
+            });
+            OnNewChat(new ChatEntity()
+            {
+                ContactUsername = "AАПdmin3"
+            });
+            OnNewChat(new ChatEntity()
+            {
+                ContactUsername = "АВФЫAРЫФРЫdmin4"
+            });
+            OnNewChat(new ChatEntity()
+            {
+                ContactUsername = "AdmПЫФФРЫПРЫФin5"
+            });
+
+        }
 
         private void OnNewChat(ChatEntity chat)
         {
@@ -63,11 +90,20 @@ namespace Chat.Client.WPF.ViewModels.Pages
 
             var avatarViewModel = new AvatarViewModel
             (
-                avatarLabel: chat.ContactUsername.Substring(0, 2),
+                avatarLabel: chat.ContactUsername.First().ToString(),
                 hash: chat.ContactUsername.GetStableHashCode()
             );
 
             var chatViewModel = new ChatCardViewModel(chat.ContactUsername, avatarViewModel);
+            Random random = new Random();
+            for (int i = 0; i < 10; i++)
+            chatViewModel.Messages.Add(new MessageViewModel()
+            {
+                Id = 134,
+                IsFromMe = random.Next(0, 2) % 2 == 0,
+                OutputText = "fdsagggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+                Time = DateTime.Now.ToShortTimeString()
+            });
 
             Chats.Add(chatViewModel);
         }

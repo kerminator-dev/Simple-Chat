@@ -17,48 +17,88 @@
         <GradientStop Color="#4b9ad8" Offset="1"/>
     </LinearGradientBrush>
     <sys:Double x:Key="AvatarFontSize">18</sys:Double>
-    
+    <Thickness x:Key="MessageMarginLeft" Left="70" Top="10" Right="10" Bottom="10"  />
+    <Thickness x:Key="MessageMarginRight" Top="10" Left="10" Bottom="10" Right="70" />
+
+
     <Style TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Name="Border" 
-                            Background="{TemplateBinding Background}"
+                    <Border Name="Part_Border" 
+                            Background="{StaticResource SelectedChatBackGradient}"
+                            Opacity="0.8"
                             CornerRadius="16">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter x:Name="PART_contentpresenter" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="Border.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="Part_Border">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     To="1"
+                                        Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuarticEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Button.MouseLeave" >
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="Part_Border">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     To="0.8"
+                                        Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuarticEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Border.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <!--<ColorAnimation To="#FF778BEB"  
+                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
+                                    Duration="0:0:0.3">
+                                        <ColorAnimation.EasingFunction>
+                                            <QuarticEase EasingMode="EaseInOut"/>
+                                        </ColorAnimation.EasingFunction>
+                                    </ColorAnimation>-->
+                                    <!--<DoubleAnimation Storyboard.TargetProperty="(Border.Opacity)"
+                                                     From="1"
+                                                     To="0"
+                                        Duration="0:0:0.3"/>-->
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Button.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <!--<ColorAnimation To="#FF778BEB"
+
+                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
+                                    Duration="0:0:0.3">
+                                        <ColorAnimation.EasingFunction>
+                                            <QuarticEase EasingMode="EaseInOut"/>
+                                        </ColorAnimation.EasingFunction>
+                                    </ColorAnimation>-->
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-                <EventTrigger RoutedEvent="Button.MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                        <ColorAnimation To="#5c82ff"  
-                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
-                                    Duration="0:0:0.3">
-                            <ColorAnimation.EasingFunction>
-                                <QuarticEase EasingMode="EaseInOut"/>
-                            </ColorAnimation.EasingFunction>
-                        </ColorAnimation>
-                    </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            <EventTrigger RoutedEvent="Button.MouseLeave">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <ColorAnimation To="Transparent"  
-                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
-                                    Duration="0:0:0.3">
-                            <ColorAnimation.EasingFunction>
-                                <QuarticEase EasingMode="EaseInOut"/>
-                            </ColorAnimation.EasingFunction>
-                        </ColorAnimation>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
+                
         </Style.Triggers>
 
     </Style>
@@ -91,19 +131,83 @@
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="AcceptsReturn" Value="True"/>
     </Style>
+    
+    <Style TargetType="{x:Type ListBox}" x:Key="DefaultListBox">
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+        
+    <Style TargetType="{x:Type ListBox}" x:Key="SmoothListBox" BasedOn="{StaticResource DefaultListBox}">
+        <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+    </Style>
 
-    <Style TargetType="{x:Type ListBoxItem}" x:Key="MessageStyle">
+    <Style  TargetType="{x:Type ListBox}" x:Key="MessageListBox" BasedOn="{StaticResource SmoothListBox}">
+        <Setter Property="SelectionMode" Value="Multiple"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Visible"/>
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="MessageListBoxItemStyle">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
-                    <controls:Message Margin="20 10" FontSize="16" IsFromMe="False" Text="fsagasg" Background="#556ee6" Foreground="Gray" Time="14:04" TimeForeground="#FF949494" SecondaryBackground="#FFECECEC"/>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="Border" Margin="0 0" Padding="5 0" Background="Transparent">
+                    <controls:Message x:Name="Message" 
+                          Margin="{StaticResource MessageMarginRight}" 
+                          FontSize="16" 
+                          Text="{Binding OutputText}" 
+                          HorizontalAlignment="Left"
+                          Background="White" 
+                          Height="auto"
+                          Foreground="Gray" 
+                          Time="{Binding Time}" 
+                          TimeForeground="#FF949494"
+                          SecondaryBackground="#FFECECEC"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsFromMe}" Value="True" >
+                            <Setter Property="Margin" TargetName="Message" Value="{StaticResource MessageMarginLeft}"/>
+                            <Setter Property="Background" TargetName="Message" Value="{StaticResource SelectedChatBackGradient}"/>
+                            <Setter Property="Foreground" TargetName="Message" Value="White"/>
+                            <Setter Property="SecondaryBackground" TargetName="Message" Value="#556ee6"/>
+                            <Setter Property="HorizontalAlignment" TargetName="Message" Value="Right"/>
+                            <Setter Property="TimeForeground" TargetName="Message" Value="White"/>
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="White" Opacity="0.4"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="White" Opacity="0.5"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <DataTemplate x:Key="MessageTemplate" DataType="vm:MessageViewModel">
+        
+        <!--<DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsFromMe}" Value="True" >
+                <Setter Property="Margin" TargetName="Message" Value="40 10 10 10"/>
+                <Setter Property="Background" TargetName="Message" Value="{StaticResource SelectedChatBackGradient}"/>
+                <Setter Property="Foreground" TargetName="Message" Value="White"/>
+                <Setter Property="SecondaryBackground" TargetName="Message" Value="#556ee6"/>
+                <Setter Property="HorizontalAlignment" TargetName="Message" Value="Right"/>
+                <Setter Property="TimeForeground" TargetName="Message" Value="White"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>-->
+            
+    </DataTemplate>
 
 
-    <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemStyle" BasedOn="{StaticResource ListBoxItemEmergingAnimation}">
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ChatListBoxItemStyle" BasedOn="{StaticResource ListBoxItemEmergingAnimation}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
@@ -126,9 +230,9 @@
                                              HorizontalAlignment="Left"
                                              Width="40"
                                              FontSize="{StaticResource AvatarFontSize}"
-                                             Fill="{Binding AvatarViewModel.Hash, Converter={StaticResource BackColorConverter}}"
-                                             Foreground="{Binding AvatarViewModel.Hash, Converter={StaticResource ForeColorConverter}}"
-                                             Text="{Binding AvatarViewModel.Label}"
+                                             Fill="{Binding Avatar.Hash, Converter={StaticResource BackColorConverter}}"
+                                             Foreground="{Binding Avatar.Hash, Converter={StaticResource ForeColorConverter}}"
+                                             Label="{Binding Avatar.Label}"
                                              FontWeight="Medium"
                                              Grid.RowSpan="2"
                                              Margin="0 0 10 0"/>
@@ -140,6 +244,7 @@
                                        Foreground="#8691b2"
                                        FontWeight="Bold"
                                        HorizontalAlignment="Left"
+                                       TextTrimming="CharacterEllipsis"
                                        Text="{Binding ContactUsername}"/>
 
                             <TextBlock Grid.Column="1"
@@ -147,6 +252,7 @@
                                        Grid.Row="1"
                                        Foreground="{StaticResource DefaultForegroundBrush}"
                                        HorizontalAlignment="Left"
+                                       TextTrimming="CharacterEllipsis"
                                        Text="{Binding ContentPreview}"/>
                         </Grid>
                     </Border>
@@ -158,6 +264,145 @@
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedChatBackGradient}"/>
                             <Setter TargetName="ContactUsername" Property="Foreground" Value="White"/>
                             <Setter TargetName="ContentPreview" Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+
+    <Style x:Key="ScrollBarTrackThumb"
+        TargetType="{x:Type Thumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Grid x:Name="Grid">
+                        <Rectangle HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Width="Auto"
+                                Height="Auto"
+                                Fill="Transparent" />
+                        <Border x:Name="CornerScrollBarRectangle"
+                            CornerRadius="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,1,0,1"
+                            Background="{TemplateBinding Background}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Tag"
+                                Value="Horizontal">
+                            <Setter TargetName="CornerScrollBarRectangle"
+                                Property="Width"
+                                Value="Auto" />
+                            <Setter TargetName="CornerScrollBarRectangle"
+                                Property="Height"
+                                Value="6" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Stylus.IsFlicksEnabled"
+            Value="false" />
+        <Setter Property="Foreground"
+            Value="#ADABAB" />
+        <Setter Property="Background"
+            Value="Transparent" />
+        <Setter Property="Width"
+            Value="7" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid x:Name="GridRoot"
+                        Width="7"
+                        Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.00001*" />
+                        </Grid.RowDefinitions>
+                        <Track x:Name="PART_Track"
+                            Grid.Row="0"
+                            IsDirectionReversed="true"
+                            Focusable="false">
+                            <Track.Thumb>
+                                <Thumb x:Name="Thumb"
+                                    Background="{TemplateBinding Foreground}"
+                                    Style="{DynamicResource ScrollBarTrackThumb}" />
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton x:Name="PageUp"
+                                            Command="ScrollBar.PageDownCommand"
+                                            Opacity="0"
+                                            Focusable="false" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton x:Name="PageDown"
+                                            Command="ScrollBar.PageUpCommand"
+                                            Opacity="0"
+                                            Focusable="false" />
+                            </Track.DecreaseRepeatButton>
+                        </Track>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="Thumb"
+                                Property="IsMouseOver"
+                                Value="true">
+                            <Setter Value="{DynamicResource ButtonSelectBrush}"
+                                TargetName="Thumb"
+                                Property="Background" />
+                        </Trigger>
+                        <Trigger SourceName="Thumb"
+                                Property="IsDragging"
+                                Value="true">
+                            <Setter Value="{DynamicResource DarkBrush}"
+                                TargetName="Thumb"
+                                Property="Background" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled"
+                                Value="false">
+                            <Setter TargetName="Thumb"
+                                Property="Visibility"
+                                Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Orientation"
+                                Value="Horizontal">
+                            <Setter TargetName="GridRoot"
+                                Property="LayoutTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="PART_Track"
+                                Property="LayoutTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Width"
+                                Value="Auto" />
+                            <Setter Property="Height"
+                                Value="8" />
+                            <Setter TargetName="Thumb"
+                                Property="Tag"
+                                Value="Horizontal" />
+                            <Setter TargetName="PageDown"
+                                Property="Command"
+                                Value="ScrollBar.PageLeftCommand" />
+                            <Setter TargetName="PageUp"
+                                Property="Command"
+                                Value="ScrollBar.PageRightCommand" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

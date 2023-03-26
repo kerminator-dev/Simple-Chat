@@ -41,6 +41,7 @@ namespace ChatAPI.Services.Implementation
             // Сообщение-уведомление
             var message = new MessageNotificationDTO()
             {
+                Id = messageRequest.Id,
                 Sender = sender.Username,
                 Receiver = receiver.Username,
                 StaticKey = messageRequest.StaticKey,

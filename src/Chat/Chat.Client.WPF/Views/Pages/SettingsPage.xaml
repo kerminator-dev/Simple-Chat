@@ -9,5 +9,20 @@
 
     <Grid>
         <TextBlock Text="{Binding Title}"/>
+
+        <ListBox Width="200" 
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"    
+                  Background="#FFE4E4E4"
+                  Height="400">
+            
+            <TextBlock Foreground="White" 
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Text="Какой-то текст, который должен быть на новой строке" 
+                       TextWrapping="Wrap" 
+                       Background="Blue"/>
+
+
+        </ListBox>
     </Grid>
 </ContentControl>

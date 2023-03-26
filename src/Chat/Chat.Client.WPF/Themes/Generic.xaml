@@ -18,7 +18,7 @@
                                  Stroke="{TemplateBinding BorderBrush}"
                                  StrokeThickness="{TemplateBinding BorderThickness}"/>
 
-                            <TextBlock Text="{TemplateBinding Text}"
+                            <TextBlock Text="{TemplateBinding Label}"
                                        Background="Transparent"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -33,16 +33,17 @@
     </Style>
 
     <Style TargetType="{x:Type c:Message}">
-        <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:Message}">
                     <Border Background="{TemplateBinding Background}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             CornerRadius="10"
                             Padding="10"
                             Height="auto"
-                            MinWidth="150"
+                            MinWidth="100"
+                            Width="auto"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
@@ -78,61 +79,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <ControlTemplate x:Key="ChatControlTemplate" TargetType="{x:Type c:ChatControl}">
-
-            <Border Background="{TemplateBinding Background}"
-                            x:Name="Back"
-                            CornerRadius="10"
-                            Padding="10"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <c:Avatar Grid.Column="0"
-                                      Grid.Row="0"
-                                      Height="40"
-                                      HorizontalAlignment="Left"
-                                      Width="40"
-                                      Fill="Blue"
-                                      Text="{TemplateBinding ContactUsername}"
-                                      Grid.RowSpan="2"
-                                      Margin="0 0 10 0"/>
-
-                    <TextBlock Grid.Column="1"
-                                       Grid.Row="0"
-                                       HorizontalAlignment="Left"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       Text="{TemplateBinding ContactUsername}"
-                                       />
-
-                    <TextBlock Grid.Column="1"
-                                       Grid.Row="1"
-                                       HorizontalAlignment="Left"
-                                       Text="{TemplateBinding ContentPreview}"/>
-                </Grid>
-            </Border>
-
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter TargetName="Back" Property="Background" Value="{TemplateBinding SelectedBackColor}"/>
-                <Setter Property="Foreground" Value="White"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-    
-    <Style TargetType="{x:Type c:ChatControl}" x:Key="ChatControlStyle">
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template" Value="{StaticResource ChatControlTemplate}"/>
     </Style>
 
     <Style TargetType="{x:Type c:NavButton}">
@@ -215,6 +161,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+ 
 
 
 </ResourceDictionary>

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "sqi7RtKxC51vH4BTDSVgOaNF8Ia3fGVbSX69vMk09qRejvE4FukHUQ3JCxXFtuLCybVQDAW0M8kpL02tWz8/uQ==",
+  "dgSpecHash": "gCr8gnnDF9h8S5PXBIxEAzk3hjAXQ600BEKSx35eMzMe4i8lPTuk1YJl/Mc+yI8wHlOqAZTA4g7iQUT4tUHUFw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\525.khokhlovns\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512"
+    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512"
   ],
   "logs": []
 }

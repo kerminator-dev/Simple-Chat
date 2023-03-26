@@ -5,12 +5,20 @@
       "MahApps.Metro.IconPacks.Material/4.11.0": {
         "type": "package",
         "compile": {
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {},
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {}
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {
+            "related": ".pdb;.xml"
+          },
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {
+            "related": ".pdb;.xml"
+          }
         },
         "runtime": {
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {},
-          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {}
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Core.dll": {
+            "related": ".pdb;.xml"
+          },
+          "lib/net5.0-windows7.0/MahApps.Metro.IconPacks.Material.dll": {
+            "related": ".pdb;.xml"
+          }
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WPF"
@@ -22,10 +30,14 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0"
         },
         "compile": {
-          "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll": {}
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll": {}
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "related": ".xml"
+          }
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
@@ -34,22 +46,46 @@
       "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
       "Newtonsoft.Json/12.0.2": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Chat.Core/1.0.0": {
@@ -183,6 +219,31 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+      "sha512": "8PZKqw9QOcu42xk8puY4P1+EXHL9YGOR9b7qhaYx5cILHul456H073tj99vyPcCt0W0781T9RwHqkx507ZyUpQ==",
+      "type": "package",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.39",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Design/Microsoft.Xaml.Behaviors.Design.dll",
+        "lib/net45/Microsoft.Xaml.Behaviors.dll",
+        "lib/net45/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net45/Microsoft.Xaml.Behaviors.xml",
+        "lib/net5.0-windows7.0/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.xml",
+        "lib/netcoreapp3.1/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.dll",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.pdb",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.xml",
+        "microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+        "microsoft.xaml.behaviors.wpf.nuspec",
+        "tools/Install.ps1"
+      ]
+    },
     "Newtonsoft.Json/12.0.2": {
       "sha512": "rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
       "type": "package",
@@ -223,27 +284,33 @@
     "net6.0-windows7.0": [
       "Chat.Core >= 1.0.0",
       "MahApps.Metro.IconPacks.Material >= 4.11.0",
-      "Microsoft.Extensions.DependencyInjection >= 7.0.0"
+      "Microsoft.Extensions.DependencyInjection >= 7.0.0",
+      "Microsoft.Xaml.Behaviors.Wpf >= 1.1.39"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\525.khokhlovns\\.nuget\\packages\\": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
       "projectName": "Chat.Client.WPF",
-      "projectPath": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
-      "packagesPath": "C:\\Users\\525.khokhlovns\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\obj\\",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\Chat.Client.WPF.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Client.WPF\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\525.khokhlovns\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0-windows7.0"
+        "net6.0-windows"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -253,8 +320,8 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
-            "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj": {
-              "projectPath": "C:\\Users\\525.khokhlovns\\source\\repos\\clones\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj"
+            "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj": {
+              "projectPath": "C:\\Users\\Admin\\Desktop\\SimpleChat\\Simple-Chat\\src\\Chat\\Chat.Core\\Chat.Core.csproj"
             }
           }
         }
@@ -276,6 +343,10 @@
           "Microsoft.Extensions.DependencyInjection": {
             "target": "Package",
             "version": "[7.0.0, )"
+          },
+          "Microsoft.Xaml.Behaviors.Wpf": {
+            "target": "Package",
+            "version": "[1.1.39, )"
           }
         },
         "imports": [
@@ -284,7 +355,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -296,7 +368,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

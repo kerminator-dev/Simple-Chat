@@ -10,10 +10,15 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Chat.Core\Chat.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Styles\Controls\" />
   </ItemGroup>
 
 </Project>

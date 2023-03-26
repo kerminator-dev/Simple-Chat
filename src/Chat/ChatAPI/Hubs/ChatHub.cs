@@ -20,12 +20,13 @@ namespace ChatAPI.Hubs
             this.messagingService = messagingService;
         }
 
+        
         public async override Task OnConnectedAsync()
         {
             // Определение пользователя
             string? username = Context.UserIdentifier;
             if (string.IsNullOrEmpty(username))
-                return;
+                base.OnDisconnectedAsync(new Exception("AccessTokenRequired!"));
 
             // Добавление в кэш
             _connections.Add(username, Context.ConnectionId);
@@ -44,7 +45,7 @@ namespace ChatAPI.Hubs
             // Определение пользователя
             string? username = Context.UserIdentifier;
             if (string.IsNullOrEmpty(username))
-                return;
+                await base.OnDisconnectedAsync(exception);
 
             // Удаление из кэша
             _connections.Remove(username, Context.ConnectionId);

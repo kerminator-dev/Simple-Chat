@@ -46,13 +46,13 @@ namespace Chat.Client.WPF.Controls
     /// </summary>
     public class Avatar : Control
     {
-        public static readonly DependencyProperty TextProperty =
-           DependencyProperty.Register("Text", typeof(string), typeof(Avatar));
+        public static readonly DependencyProperty LabelProperty =
+           DependencyProperty.Register("Label", typeof(string), typeof(Avatar));
 
-        public string Text
+        public string Label
         {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+            get => (string)GetValue(LabelProperty);
+            set => SetValue(LabelProperty, value);
         }
 
         public static readonly DependencyProperty FillProperty = 

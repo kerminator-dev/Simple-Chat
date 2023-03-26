@@ -101,7 +101,7 @@ namespace Chat.WebAPIClientLibrary
                 .WithUrl($"{host}{HUB_ENDPOINT}", options =>
                 {
                     options.AccessTokenProvider = () => Task.FromResult(_authManager.AccessToken);
-                    options.Transports = HttpTransportType.ServerSentEvents;
+                    options.Transports = HttpTransportType.WebSockets;
                 })
                 .WithAutomaticReconnect()
                 .Build();

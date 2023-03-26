@@ -5,12 +5,22 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:vm="clr-namespace:Chat.Client.WPF.ViewModels"
                 xmlns:controls="clr-namespace:Chat.Client.WPF.Controls" 
-                xmlns:pages="clr-namespace:Chat.Client.WPF.ViewModels.Pages" xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
+
+                xmlns:pages="clr-namespace:Chat.Client.WPF.ViewModels.Pages" xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                 d:DataContext="{d:DesignInstance Type=pages:ChatPageViewModel}"
                 mc:Ignorable="d" 
                 d:DesignHeight="450"
-                d:DesignWidth="800">
-    <ContentControl.Resources>
+                d:DesignWidth="700"
+                >
+
+        <b:Interaction.Triggers>
+            <b:EventTrigger EventName="Loaded">
+                <b:InvokeCommandAction Command="{Binding InitializeViewModelCommand}"/>
+            </b:EventTrigger>
+        </b:Interaction.Triggers>
+
+    
+        <ContentControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/Generic.xaml"/>
@@ -22,7 +32,7 @@
                 <GradientStop Color="#e6e4fa" Offset="0.8"/>
                 <GradientStop Color="#d1ddfb" Offset="0.9"/>
                 <GradientStop Color="#e2d7f6" Offset="1"/>
-                
+
             </LinearGradientBrush>
 
             <LinearGradientBrush x:Key="SelectedChatBackGradient" StartPoint="0.2,0" EndPoint="0.5,1">
@@ -34,12 +44,12 @@
             </LinearGradientBrush>
         </ResourceDictionary>
     </ContentControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="250" Width="250" MaxWidth="350"/>
+            <ColumnDefinition MinWidth="250" Width="auto" MaxWidth="350"/>
             <ColumnDefinition Width="3"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition MinWidth="250" Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Border Background="#ffffff"
@@ -66,42 +76,46 @@
                                                  IconForeground="#abaeb1" 
                                                  Background="#f5f5f5" 
                                                  HorizontalAlignment="Stretch" />
-                    
+
                 </Border>
 
 
                 <!--<controls:ChatList Grid.Row="1" DataContext="{Binding ChatList}"/>-->
-                <ListBox
+                <ListBox   
                     Grid.Row="1" 
-                    BorderThickness="0"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                    SelectedItem="{Binding SelectedChat}"
+                    Style="{StaticResource SmoothListBox}"
                     ItemsSource="{Binding Chats}"
-                    ItemContainerStyle="{StaticResource ListBoxItemStyle}">
-
+                    ItemContainerStyle="{StaticResource ChatListBoxItemStyle}">
                 </ListBox>
 
             </Grid>
         </Border>
 
         <GridSplitter Grid.Column="1"
-                  Background="#ffffff" 
+                   Background="#FFFFFFFF"
+                   BorderThickness="0 0 1 0"
+                   BorderBrush="#FFE8E8E8"
             
                   VerticalAlignment="Stretch" 
                   HorizontalAlignment="Stretch" />
 
         <Grid Grid.Column="2" Background="{StaticResource ChatBackGradient}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition MinHeight="40" Height="auto"/>
             </Grid.RowDefinitions>
             <ListBox Background="Transparent"
-                         Grid.Row="1"   
-                         BorderThickness="0">
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                     HorizontalAlignment="Stretch"
+                     ItemsSource="{Binding SelectedChat.Messages}"
+                     ItemContainerStyle="{StaticResource MessageListBoxItemStyle}"
+                     Style="{StaticResource MessageListBox}"
+                     Grid.Row="1">
 
-                    <controls:Message Margin="20 10" IsFromMe="True" Text="fsagaSHHSGGAGAsg" Foreground="White" Background="#778beb" Time="14:04" TimeForeground="White" SecondaryBackground="#556ee6"/>
-                    <controls:Message Margin="20 10" FontSize="16" IsFromMe="False" Text="fsagasg" Background="White" Foreground="Gray" Time="14:04" TimeForeground="#FF949494" SecondaryBackground="#FFECECEC"/>
-                <controls:Message Margin="20 10" IsFromMe="True" Text="fsaDFAFSAGSAHGSHAgaSHHSGGAGAsgfsaDFAFSGAsg" Foreground="White" Background="#778beb" Time="14:04" TimeForeground="White" SecondaryBackground="#556ee6"/>
-                </ListBox>
+            </ListBox>
 
             <StackPanel Orientation="Vertical"
                         Grid.Row="0">
@@ -109,7 +123,7 @@
                         VerticalAlignment="Top"
                         Background="White">
                     <TextBlock HorizontalAlignment="Left"
-                               Text="Username"
+                               Text="{Binding SelectedChat.ContactUsername}"
                                VerticalAlignment="Center"
                                Margin="15"
                                FontSize="24"
@@ -124,43 +138,42 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </StackPanel>
-            
-            <Border VerticalAlignment="Bottom"
-                    Grid.Row="2"   
+
+            <StackPanel Grid.Row="3"   >
+
+                <Border
+                    
                     Height="auto"
                     MaxHeight="200"
                     Background="White"
-                    CornerRadius="20"
-                    
-                    Margin="20 20 20 15">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="6"
-                                      ShadowDepth="4"
-                                      Color="#FFDEDEDE"
-                                      Direction="270"/>
-                </Border.Effect>
+                    Padding="5"
+                    Margin="0,0,0,0">
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <i:PackIconMaterial VerticalAlignment="Center" 
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <i:PackIconMaterial VerticalAlignment="Top" 
                                         Grid.Column="0"
                                         Name="Icon"
-                                        HorizontalAlignment="Center"
-                                        Margin="10 0 0 0"
+                                        HorizontalAlignment="Right"
+                                        Margin="12 12 10 0"
                                         Padding="0 0 0 0"
-                                        Kind="LinkVariant" 
+                                        Kind="Paperclip" 
                                         Foreground="Gray"
-                                        Height="24" Width="24" />
-                    
-                    <TextBox Grid.Column="1"
+                                        Height="20" Width="20" />
+
+
+                        <TextBox Grid.Column="1"
+                                 Text="Type message here."
+                                 Foreground="{StaticResource DefaultForegroundBrush}"
                              Style="{StaticResource MultilineTextBox}"/>
 
-                    <Button Grid.Column="2"
+
+                            <Button Grid.Column="2"
                             Margin="4 4"
                             Width="60"
                             VerticalAlignment="Top"
@@ -168,12 +181,14 @@
                             Height="33"
                             Foreground="White"
                             Name="btnSaveEditedText" 
-                            Background="#5c82ff">
-                        Send
-                    </Button>
-                </Grid>
-                
-            </Border>
+                            Background="#FF778BEB">
+                                Send
+                            </Button>
+                    </Grid>
+
+                </Border>
+            </StackPanel>
+           
         </Grid>
 
     </Grid>

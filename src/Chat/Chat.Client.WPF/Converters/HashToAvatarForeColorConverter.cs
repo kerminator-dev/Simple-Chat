@@ -11,6 +11,7 @@ using System.Windows.Media;
 
 namespace Chat.Client.WPF.Converters
 {
+    [ValueConversion(typeof(string), typeof(SolidColorBrush))]
     internal class HashToAvatarForeColorConverter : IValueConverter
     {
         public object Convert(object hash, Type targetType, object parameter, CultureInfo culture)

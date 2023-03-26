@@ -51,9 +51,10 @@ app.MapControllers();
 app.UseCors("CorsPolicy");
 app.MapHub<ChatHub>("/Hub", options =>
 {
+    options.CloseOnAuthenticationExpiration = false;
     options.TransportMaxBufferSize = 32;
     options.ApplicationMaxBufferSize = 32;
-    options.Transports = HttpTransportType.ServerSentEvents;
+    options.Transports = HttpTransportType.WebSockets;
 });
 
 app.Run();

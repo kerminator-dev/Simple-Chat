@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using Chat.Client.WPF.Extensions;
-using Chat.Client.WPF.ViewModels;
+using Chat.Client.WPF.ViewModels.Windows;
 using Chat.Client.WPF.Views;
+using Chat.Client.WPF.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Chat.Client.WPF

@@ -2,9 +2,6 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="Views\UserControls\ChatContentControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\Pages\SettingsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -14,9 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Styles\Pages\ChatsPageStyles.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\UserControls\ChatContentControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Generic.xaml">

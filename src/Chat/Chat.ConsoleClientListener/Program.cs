@@ -17,6 +17,13 @@ namespace Chat.ConsoleClientListener
             Console.Write("Хост: ");
             string hostname = Console.ReadLine();
 
+            Console.Write("Имя пользователя: ");
+            string username = Console.ReadLine();
+
+            Console.Write("Пароль: ");
+            string password = Console.ReadLine();
+
+
             _apiManager = new APIManager(hostname);
 
             _apiManager.OnConnectionClosed += OnConnectionClosed;
@@ -29,30 +36,35 @@ namespace Chat.ConsoleClientListener
 
             var loginRequest = new LoginRequestDTO()
             {
-                Username = Console.ReadLine(),
-                Password = Console.ReadLine()
+                Username = username,
+                Password = password
             };
 
             try
             {
                 var user = await _apiManager.TryLogin(loginRequest);
-                Console.WriteLine("Вошёл как {0}", user.Username);
+                LogInformation($"Вошёл как {user.Username}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogInformation(ex.Message);
             }
 
             Console.ReadLine();
+        }
+
+        private static void LogInformation(string message)
+        {
+            Console.WriteLine($"{DateTime.Now.ToLongTimeString()}: {message}");
         }
 
         private static Task OnConnectionClosed(Exception? ex)
         {
             if (ex != null)
             {
-                Console.WriteLine("Подключение закрыто, ошибка: {0}", ex);
+                LogInformation($"Подключение закрыто, ошибка: {ex}");
             }
-            else Console.WriteLine("Подключение закрыто, неизвестная ошибка");
+            else LogInformation("Подключение закрыто, неизвестная ошибка");
 
             return Task.CompletedTask;
         }
@@ -61,9 +73,9 @@ namespace Chat.ConsoleClientListener
         {
             if (ex != null)
             {
-                Console.WriteLine("Попытка переподклюения, ошибка: {0}", ex);
+                LogInformation($"Попытка переподклюения, ошибка: {ex}");
             }
-            else Console.WriteLine("Попытка переподклюения, неизвестная ошибка");
+            else LogInformation("Попытка переподклюения, неизвестная ошибка");
 
             return Task.CompletedTask;
         }
@@ -71,34 +83,34 @@ namespace Chat.ConsoleClientListener
         private static Task OnReconnected(string? connection)
         {
             if (connection != null)
-                Console.WriteLine("Переподключен. {0}", connection);
+                LogInformation($"Переподключен. {connection}");
             else 
-                Console.WriteLine("Переподключен.");
+                LogInformation("Переподключен.");
 
             return Task.CompletedTask;
         }
 
         private static void OnUserGetsOnline(string username)
         {
-            Console.WriteLine("{0} подключился", username);
+            LogInformation($"{username} подключился");
         }
 
         private static void OnUserGetsOffline(string username)
         {
-            Console.WriteLine("{0} отключился", username);
+            LogInformation($"{username} отключился");
         }
 
         private static void OnMessageReceived(MessageNotificationDTO message)
         {
-            Console.WriteLine("Получено сообщение от {0}: '{1}'", message.Sender, message.Message);
+            LogInformation($"Получено сообщение от {message.Sender}: '{message.Message}'");
         }
 
         private static void OnActiveUsersNotification(ActiveUsersNotificationDTO notification)
         {
             if (notification.Usernames == null || notification.Usernames.Count() == 0)
-                Console.WriteLine("Пользователей в сети: 0");
+                LogInformation("Пользователей в сети: 0");
             else
-                Console.WriteLine("Пользователи в сети: {0}", string.Join(", ", notification.Usernames));
+                LogInformation($"Пользователи в сети: {string.Join(", ", notification.Usernames)}" );
         }
     }
 }
