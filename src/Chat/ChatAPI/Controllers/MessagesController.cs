@@ -24,7 +24,7 @@ namespace ChatAPI.Controllers
 
         [HttpPost("Send")]
         [Authorize]
-        public async Task<IActionResult> SendMessage([FromBody] SendMessageRequestDTO messageRequestDTO)
+        public async Task<IActionResult> SendMessage([FromBody] SendTextMessageRequestDTO messageRequestDTO)
         {
             User user = await _authenticationService.RetrieveUserFromHTTPContex(HttpContext);
             if (user == null)
@@ -33,7 +33,7 @@ namespace ChatAPI.Controllers
             try
             {
                 // Отправка сообщения
-                await _messagingService.SendMessage(user, messageRequestDTO);
+                await _messagingService.SendMessage(user.Username, messageRequestDTO);
 
                 return Ok();
             }

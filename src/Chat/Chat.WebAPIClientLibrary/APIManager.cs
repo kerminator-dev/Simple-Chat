@@ -15,6 +15,8 @@ namespace Chat.WebAPIClientLibrary
     {
         // Endpoint SignalR-хаба
         private const string HUB_ENDPOINT = "Hub";
+        private const string SUBSCRIBE_ON_NOTIFICATIONS_METHOD_NAME = "SubscribeOnUserNotifications";
+        private const string UNSUBSCRIBE_FROM_NOTIFICATIONS_METHOD_NAME = "UnsubscribeFromUserNotifications";
 
         // Подключение к SignalR-хабу
         private Microsoft.AspNetCore.SignalR.Client.HubConnection _hubConnection;
@@ -68,7 +70,7 @@ namespace Chat.WebAPIClientLibrary
         /// <summary>
         /// При получении нового сообщения
         /// </summary>
-        public event Action<MessageNotificationDTO> OnMessageReceived;
+        public event Action<TextMessageNotificationDTO> OnMessageReceived;
 
         /// <summary>
         /// При получении уведомления о новом активном пользователе хаба
@@ -119,7 +121,7 @@ namespace Chat.WebAPIClientLibrary
                 OnUserGetsOnline?.Invoke(username);
             });
 
-            _hubConnection.On<MessageNotificationDTO>("NewMessage", (message) =>
+            _hubConnection.On<TextMessageNotificationDTO>("NewMessage", (message) =>
             {
                 OnMessageReceived?.Invoke(message);
             });
@@ -145,6 +147,16 @@ namespace Chat.WebAPIClientLibrary
                     catch (Exception) { }
                 }
             }
+        }
+
+        public async Task SubscribeOnUserNotifications(params string[] usernames)
+        {
+            await _hubConnection.InvokeAsync(SUBSCRIBE_ON_NOTIFICATIONS_METHOD_NAME, usernames);
+        }
+
+        public async Task UnsubscribeFromUserNotifications(params string[] usernames)
+        {
+            await _hubConnection.InvokeAsync(UNSUBSCRIBE_FROM_NOTIFICATIONS_METHOD_NAME, usernames);
         }
 
         public async Task<bool> TryRegister(RegisterRequestDTO registerRequest)
@@ -197,7 +209,7 @@ namespace Chat.WebAPIClientLibrary
             }
         }
 
-        public async Task<bool> TrySendMessageAsync(SendMessageRequestDTO sendMessageRequestDTO)
+        public async Task<bool> TrySendMessageAsync(SendTextMessageRequestDTO sendMessageRequestDTO)
         {
             try
             {

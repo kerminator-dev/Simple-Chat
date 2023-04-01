@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ChatAPI.Migrations
+namespace Chat.WebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -15,6 +15,24 @@ namespace ChatAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
+
+            modelBuilder.Entity("Chat.WebAPI.Entities.UserContact", b =>
+                {
+                    b.Property<string>("Username")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContactUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Username", "ContactUsername");
+
+                    b.HasIndex("ContactUsername");
+
+                    b.ToTable("Contacts");
+                });
 
             modelBuilder.Entity("ChatAPI.Entities.User", b =>
                 {
@@ -28,6 +46,30 @@ namespace ChatAPI.Migrations
                     b.HasKey("Username");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Chat.WebAPI.Entities.UserContact", b =>
+                {
+                    b.HasOne("ChatAPI.Entities.User", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactUsername")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChatAPI.Entities.User", "User")
+                        .WithMany("Contacts")
+                        .HasForeignKey("Username")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contact");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ChatAPI.Entities.User", b =>
+                {
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }

@@ -43,6 +43,7 @@
                             Padding="10"
                             Height="auto"
                             MinWidth="100"
+                            MaxWidth="700"
                             Width="auto"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
@@ -147,8 +148,9 @@
                                                 Kind="{TemplateBinding Icon}" 
                                                 Background="Transparent"/>
 
-                            <TextBox Grid.Column="1"
+                            <c:PlaceholderTextBoxControl Grid.Column="1"
                                      BorderThickness="0"
+                                                         Placeholder="Search..."
                                      Height="auto"
                                      VerticalAlignment="Center"
                                      Foreground="{TemplateBinding Foreground}"
@@ -162,7 +164,36 @@
         </Setter>
     </Style>
 
- 
+    <Style TargetType="{x:Type c:PlaceholderTextBoxControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:PlaceholderTextBoxControl}">
+                    <ControlTemplate.Resources>
+                        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                    </ControlTemplate.Resources>
+
+                    <Grid>
+                        <TextBlock Cursor="IBeam"
+                                   Panel.ZIndex="1"
+                                   Opacity="0.5"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                   Text="{TemplateBinding Placeholder}"
+                                   Visibility="{TemplateBinding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 </ResourceDictionary>

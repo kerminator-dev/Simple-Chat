@@ -10,5 +10,6 @@ namespace ChatAPI.Services.Interfaces
         Task DeleteUser(User user);
         Task UpdateUser(User user);
         Task<bool> IsUserExists(string username);
+        Task<IList<string>> GetExistingUsernames(IList<string> usernames);
     }
 }

@@ -44,6 +44,10 @@ namespace Chat.ConsoleClientListener
             {
                 var user = await _apiManager.TryLogin(loginRequest);
                 LogInformation($"Вошёл как {user.Username}");
+
+                Console.Write("Подписаться на: ");
+                var usernames = Console.ReadLine().Split(' ');
+                await _apiManager.SubscribeOnUserNotifications(usernames);
             }
             catch (Exception ex)
             {
@@ -100,7 +104,7 @@ namespace Chat.ConsoleClientListener
             LogInformation($"{username} отключился");
         }
 
-        private static void OnMessageReceived(MessageNotificationDTO message)
+        private static void OnMessageReceived(TextMessageNotificationDTO message)
         {
             LogInformation($"Получено сообщение от {message.Sender}: '{message.Message}'");
         }

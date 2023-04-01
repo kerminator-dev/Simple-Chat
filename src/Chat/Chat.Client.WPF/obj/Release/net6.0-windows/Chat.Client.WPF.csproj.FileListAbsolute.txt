@@ -35,3 +35,6 @@ C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Relea
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Release\net6.0-windows\ref\Chat.Client.WPF.dll
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Release\net6.0-windows\Views\Windows\MainWindow.g.cs
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Release\net6.0-windows\Views\Windows\MainWindow.baml
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Release\net6.0-windows\Styles\Controls\PlaceholderTextBoxControlResources.baml
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Release\net6.0-windows\Styles\GlobalStyles.baml
+C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\obj\Release\net6.0-windows\Styles\Pages\SettingsPageStyles.baml

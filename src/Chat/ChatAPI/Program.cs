@@ -3,16 +3,20 @@ using ChatAPI.Extensions;
 using ChatAPI.Hubs;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseUrls("http://25.51.105.220:5000");
+
 builder.Services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressModelStateInvalidFilter = true;
-                });
+                })
+                ;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationDbContext(builder.Configuration);

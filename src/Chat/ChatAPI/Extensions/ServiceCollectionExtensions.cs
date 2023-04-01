@@ -101,7 +101,7 @@ namespace ChatAPI.Extensions
         {
             services.AddSingleton<ICache<string, RefreshToken>, CachedRefreshTokenRepository>();
             services.AddSingleton<ICache<string, User>, CachedUserRepository>();
-            services.AddSingleton<ConnectionMapper<string>>();
+            services.AddSingleton<CachedUserConnectionMapper<string>>();
 
             return services;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Chat.WebAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace ChatAPI.Entities
@@ -9,5 +10,7 @@ namespace ChatAPI.Entities
         public string Username { get; set; }
 
         public string PasswordHash { get; set; }
+
+        public virtual ICollection<UserContact> Contacts { get; set;}
     }
 }

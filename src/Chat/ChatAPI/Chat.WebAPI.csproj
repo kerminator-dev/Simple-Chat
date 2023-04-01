@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PackageProjectUrl></PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +27,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chat.Core\Chat.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

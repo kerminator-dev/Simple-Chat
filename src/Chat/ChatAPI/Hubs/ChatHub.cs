@@ -1,7 +1,6 @@
 ﻿using Chat.Core.DTOs.Notifications;
 using Chat.Core.Enums;
 using ChatAPI.Mappings;
-using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -10,32 +9,36 @@ namespace ChatAPI.Hubs
     [Authorize]
     public class ChatHub : Hub
     {
-        private readonly IMessagingService messagingService;
+        private const string USER_GETS_ONLINE_METHOD_NAME = "UserGetsOnline";
+        private const string USER_GETS_OFFLINE_METHOD_NAME = "UserGetsOffline";
+        private const string ACTIVE_USERS_METHOD_NAME = "ActiveUsers";
 
-        private readonly ConnectionMapper<string> _connections;
+        private readonly CachedUserConnectionMapper<string> _userConnections;
 
-        public ChatHub(ConnectionMapper<string> connections, IMessagingService messagingService)
+        public ChatHub(CachedUserConnectionMapper<string> connections)
         {
-            _connections = connections;
-            this.messagingService = messagingService;
+            _userConnections = connections;
         }
 
-        
         public async override Task OnConnectedAsync()
         {
             // Определение пользователя
-            string? username = Context.UserIdentifier;
+            string username = Context.UserIdentifier;
             if (string.IsNullOrEmpty(username))
-                base.OnDisconnectedAsync(new Exception("AccessTokenRequired!"));
+                await base.OnDisconnectedAsync(new Exception("AccessTokenRequired!"));
 
             // Добавление в кэш
-            _connections.Add(username, Context.ConnectionId);
+            _userConnections.Add(username, Context.ConnectionId);
 
-            // Уведомление остальных участников о том, что пользователь {username} подключился
-            await messagingService.NotifyOtherUsersNewUserStatus(Clients, username, OnlineStatus.Online);
+            // Если это первая сессия пользователя
+            if (_userConnections.GetConnections(username).Count() == 1)
+            {
+                // Уведомление подписчиков пользователя о том, что пользователь {username} подключился
+                await NotifyOtherUsersNewUserStatus(Clients, username, OnlineStatus.Online);
+            }
 
             // Уведомление пользователя {username} о списке активных пользователей
-            await messagingService.NotifyCallerOnlineUsersList(Clients.Caller, username);
+            await NotifyCallerOnlineUsersList(Clients.Caller, username);
 
             await base.OnConnectedAsync();
         }
@@ -48,19 +51,47 @@ namespace ChatAPI.Hubs
                 await base.OnDisconnectedAsync(exception);
 
             // Удаление из кэша
-            _connections.Remove(username, Context.ConnectionId);
+            _userConnections.Remove(username, Context.ConnectionId);
 
             // Получение оставшихся подключений пользователя
-            var otherUserConnections = _connections.GetConnections(username);
+            var otherUserConnections = _userConnections.GetConnections(username);
 
             // Если подключений у пользователя нет
-            if (otherUserConnections == null || otherUserConnections.Count() == 0)
+            if (otherUserConnections == null || !otherUserConnections.Any())
             {
-                // Уведомление остальных участников о том, что пользователь {username} отключился
-                await messagingService.NotifyOtherUsersNewUserStatus(Clients, username, OnlineStatus.Offline);
+
+                // Уведомление подписчиков пользователя о том, что пользователь {username} отключился
+                await NotifyOtherUsersNewUserStatus(Clients, username, OnlineStatus.Offline);
             }
 
             await base.OnDisconnectedAsync(exception);
+        }
+
+
+        private async Task NotifyOtherUsersNewUserStatus(IHubCallerClients clients, string username, OnlineStatus status)
+        {
+            // Получение списка всех подключений пользователя
+            var userConnections = _userConnections.GetConnections(username);
+
+            // Рассылка уведомления на все подключения за исключением подключений текущего пользователя
+            switch (status)
+            {
+                case OnlineStatus.Online:
+                    await clients.AllExcept(userConnections).SendAsync(USER_GETS_ONLINE_METHOD_NAME, username);
+                    break;
+                case OnlineStatus.Offline:
+                    await clients.AllExcept(userConnections).SendAsync(USER_GETS_OFFLINE_METHOD_NAME, username);
+                    break;
+            }
+        }
+
+        private async Task NotifyCallerOnlineUsersList(ISingleClientProxy caller, string receiverUsername)
+        {
+            var activeUsers = new ActiveUsersNotificationDTO()
+            {
+                Usernames = _userConnections.GetAllKeysExcept(receiverUsername)
+            };
+            await caller.SendAsync(ACTIVE_USERS_METHOD_NAME, activeUsers);
         }
     }
 }

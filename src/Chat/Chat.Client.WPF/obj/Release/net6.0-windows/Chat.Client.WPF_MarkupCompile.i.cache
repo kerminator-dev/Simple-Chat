@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET6_0;NETCOREAPP
 C:\Users\Admin\Desktop\SimpleChat\Simple-Chat\src\Chat\Chat.Client.WPF\App.xaml
-51597813104
+81233877068
 
-39-469742734
+411956393212
 201-2143208453
-Styles\Pages\ChatsPageStyles.xaml;Themes\Generic.xaml;Views\Pages\ChatsPage.xaml;Views\Pages\SettingsPage.xaml;Views\Windows\MainWindow.xaml;
+Styles\Controls\PlaceholderTextBoxControlResources.xaml;Styles\GlobalStyles.xaml;Styles\Pages\ChatsPageStyles.xaml;Styles\Pages\SettingsPageStyles.xaml;Themes\Generic.xaml;Views\Pages\ChatsPage.xaml;Views\Pages\SettingsPage.xaml;Views\Windows\MainWindow.xaml;
 
-False
+True
 

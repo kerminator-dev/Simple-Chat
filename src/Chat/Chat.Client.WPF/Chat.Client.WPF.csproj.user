@@ -10,7 +10,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Styles\Controls\PlaceholderTextBoxControlResources.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\GlobalStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Pages\ChatsPageStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Pages\SettingsPageStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Generic.xaml">

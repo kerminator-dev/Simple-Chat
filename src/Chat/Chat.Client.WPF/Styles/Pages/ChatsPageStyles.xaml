@@ -4,9 +4,10 @@
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
                     xmlns:controls="clr-namespace:Chat.Client.WPF.Controls"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
     <converters:HashToAvatarForeColorConverter x:Key="ForeColorConverter"/>
     <converters:HashToAvatarBackColorConverter x:Key="BackColorConverter"/>
-        <converters:OnlineStatusToColorConverter x:Key="OnlineStatusConverter"/>
+    <converters:OnlineStatusToColorConverter x:Key="OnlineStatusConverter"/>
 
     <Brush x:Key="DefaultForegroundBrush">#8591b6</Brush>
     
@@ -17,8 +18,8 @@
         <GradientStop Color="#4b9ad8" Offset="1"/>
     </LinearGradientBrush>
     <sys:Double x:Key="AvatarFontSize">18</sys:Double>
-    <Thickness x:Key="MessageMarginLeft" Left="70" Top="10" Right="10" Bottom="10"  />
-    <Thickness x:Key="MessageMarginRight" Top="10" Left="10" Bottom="10" Right="70" />
+    <Thickness x:Key="MessageMarginLeft" Left="100" Top="10" Right="10" Bottom="10"  />
+    <Thickness x:Key="MessageMarginRight" Top="10" Left="10" Bottom="10" Right="100" />
 
 
     <Style TargetType="{x:Type Button}">
@@ -123,7 +124,8 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type TextBox}" x:Key="MultilineTextBox">
+    <Style TargetType="{x:Type controls:PlaceholderTextBoxControl}" x:Key="MessageTextBox">
+        <Setter Property="Cursor" Value="IBeam"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="15 10"/>
         <Setter Property="FontSize" Value="16"/>
@@ -131,6 +133,8 @@
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="AcceptsReturn" Value="True"/>
     </Style>
+    
+    
     
     <Style TargetType="{x:Type ListBox}" x:Key="DefaultListBox">
         <Setter Property="BorderThickness" Value="0"/>

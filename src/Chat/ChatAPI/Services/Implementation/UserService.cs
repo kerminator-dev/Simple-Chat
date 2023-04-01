@@ -75,6 +75,21 @@ namespace ChatAPI.Services.Implementation
             );
         }
 
+        public async Task<IList<string>> GetExistingUsernames(IList<string> usernames)
+        {
+            var existingUsers = new List<string>();
+
+            foreach (string username in usernames)
+            {
+                if (await IsUserExists(username))
+                {
+                    existingUsers.Add(username);
+                }
+            }
+            
+            return existingUsers;
+        }
+
         public async Task DeleteUser(User user)
         {
             await _userRepository.Delete(user);

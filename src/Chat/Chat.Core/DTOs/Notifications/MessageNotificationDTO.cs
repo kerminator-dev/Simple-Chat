@@ -1,6 +1,6 @@
 ﻿namespace Chat.Core.DTOs.Notifications
 {
-    public class MessageNotificationDTO
+    public class TextMessageNotificationDTO
     {
         // Идентификатор сообщения
         public string Id { get; set; }

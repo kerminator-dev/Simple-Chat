@@ -5,7 +5,6 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:vm="clr-namespace:Chat.Client.WPF.ViewModels"
                 xmlns:controls="clr-namespace:Chat.Client.WPF.Controls" 
-
                 xmlns:pages="clr-namespace:Chat.Client.WPF.ViewModels.Pages" xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                 d:DataContext="{d:DesignInstance Type=pages:ChatPageViewModel}"
                 mc:Ignorable="d" 
@@ -62,11 +61,10 @@
 
                 <Border Grid.Row="0"
                         Grid.Column="1"
-                    Margin="15 15 15 10"
-                    VerticalAlignment="Top"
-                    MinWidth="200"
-                    HorizontalAlignment="Stretch"
-                    >
+                        Margin="15 15 15 10"
+                        VerticalAlignment="Top"
+                        MinWidth="200"
+                        HorizontalAlignment="Stretch">
                     <controls:IconTextBoxControl CornerRadius="12" 
                                                  IconSize="16" 
                                                  FontSize="16" 
@@ -74,7 +72,7 @@
                                                  Icon="magnify"
                                                  Foreground="#abaeb1" 
                                                  IconForeground="#abaeb1" 
-                                                 Background="#f5f5f5" 
+                                                 Background="WhiteSmoke" 
                                                  HorizontalAlignment="Stretch" />
 
                 </Border>
@@ -160,17 +158,17 @@
                                         Grid.Column="0"
                                         Name="Icon"
                                         HorizontalAlignment="Right"
-                                        Margin="12 12 10 0"
+                                        Margin="12 12 0 0"
                                         Padding="0 0 0 0"
                                         Kind="Paperclip" 
                                         Foreground="Gray"
                                         Height="20" Width="20" />
 
 
-                        <TextBox Grid.Column="1"
-                                 Text="Type message here."
+                        <controls:PlaceholderTextBoxControl Grid.Column="1"
+                                 Placeholder="Type your message here.."
                                  Foreground="{StaticResource DefaultForegroundBrush}"
-                             Style="{StaticResource MultilineTextBox}"/>
+                                 Style="{StaticResource MessageTextBox}"/>
 
 
                             <Button Grid.Column="2"

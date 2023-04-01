@@ -18,14 +18,14 @@ namespace Chat.WebAPIClientLibrary.Services.Implementation
             _sendMessageRoute = $"{address}api/Messages/Send";
         }
 
-        public async Task<bool> TrySendMessageAsync(SendMessageRequestDTO sendMessageRequestDTO, string accessToken)
+        public async Task<bool> TrySendMessageAsync(SendTextMessageRequestDTO sendMessageRequestDTO, string accessToken)
         {
             try
             {
                 // Построение запроса
                 var builder = new WebRequestBuilder(_sendMessageRoute)
                                  .WithHttpMethod(HttpMethod.Post)
-                                 .WithJsonBody<SendMessageRequestDTO>(sendMessageRequestDTO)
+                                 .WithJsonBody<SendTextMessageRequestDTO>(sendMessageRequestDTO)
                                  .WithJwtAccessToken(accessToken);
 
                 var request = (HttpWebRequest)await builder.Build();
