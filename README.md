@@ -1,11 +1,11 @@
 # Chat - full stack chat application.
-## ENG | <a href="https://github.com/ertanfird/simplify">RU</a>
+## ENG | <a href="https://github.com/kerminator-dev/Simple-Chat/blob/master/README-RU.md">RU</a>
 
 ![alt text](https://github.com/kerminator-dev/Simple-Chat/blob/master/img/wpf-client.png?raw=true)
 
 This project was made to improve knowlegde of building a .NET WEB applications with WEB Api and also can have many flaws. I would be appreciate for a new suggestions to improve the code. 
 
-The basic and general principle is simple text messaging to another users with ability to encrypt messages on client-sides. Any other additional functionality will be considered redundant.
+The basic and general principle is simple text messaging to another users with ability to encrypt messages on client-sides.
  
  ### Main functionality:
  - Register/Login/Logout
