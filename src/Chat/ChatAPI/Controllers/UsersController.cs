@@ -1,5 +1,8 @@
 ﻿using Chat.Core.DTOs.Requests;
+using Chat.Core.DTOs.Responses;
+using Chat.Core.Enums;
 using ChatAPI.Exceptions;
+using ChatAPI.Mappings;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -15,16 +18,19 @@ namespace ChatAPI.Controllers
     {
         private readonly AuthenticationService _authenticationService;
         private readonly IUserService _userService;
+        private readonly CachedUserConnectionMapper<string> _hubConnections;
 
         public UsersController(IUserService userService,
-                                        AuthenticationService authenticationService)
+                                        AuthenticationService authenticationService,
+                                        CachedUserConnectionMapper<string> hubConnections)
         {
             _userService = userService;
             _authenticationService = authenticationService;
+            _hubConnections = hubConnections;
         }
 
         [HttpGet("Get")]
-        public async Task<IActionResult> Get([FromBody] GetUserRequestDTO getUserRequest)
+        public async Task<IActionResult> GetUser([FromBody] GetUserRequestDTO getUserRequest)
         {
             var user = await _authenticationService.RetrieveUserFromHTTPContex(HttpContext);
             if (user == null)
@@ -32,9 +38,22 @@ namespace ChatAPI.Controllers
 
             try
             {
-                var userDTO = await _userService.GetUserByUsername(getUserRequest.Username);
+                // Существует ли пользователь
+                bool userExists = await _userService.IsUserExists(getUserRequest.Username);
+                if (!userExists)
+                {
+                    return NotFound("User not found!");
+                }
 
-                return Ok();
+                // Подключён ли пользователь к хабу
+                bool isConnectedToHub = _hubConnections.Contains(getUserRequest.Username);
+                var userResponse = new UserResponseDTO
+                (
+                    username: getUserRequest.Username,
+                    onlineStatus: isConnectedToHub ? OnlineStatus.Online : OnlineStatus.Offline
+                );
+
+                return Ok(userResponse);
             }
             catch (EntityNotFoundException ex)
             {

@@ -100,13 +100,16 @@ namespace ChatAPI.Hubs
         /// </summary>
         /// <param name="messageRequestDTO">Объект сообщения</param>
         /// <returns></returns>
-        /// <exception cref="HubException"></exception>
+        /// <exception cref="HubException">Исключение при попытке отправки сообщения</exception>
         public async Task SendMessage(SendTextMessageRequestDTO messageRequestDTO)
         {
             // Определение пользователя
             string? username = Context.UserIdentifier;
             if (string.IsNullOrEmpty(username))
-                throw new HubException("User not found!");
+                throw new HubException("User not found!")
+                {
+                    HResult = 400
+                };
 
             try
             {
@@ -115,7 +118,17 @@ namespace ChatAPI.Hubs
             }
             catch (Exception ex) when (ex is MessageNotSentException || ex is EntityNotFoundException || ex is ArgumentException)
             {
-                throw new HubException(ex.Message);
+                throw new HubException(ex.Message)
+                {
+                    HResult = 400
+                };
+            }
+            catch (Exception)
+            {
+                throw new HubException()
+                {
+                    HResult = 500
+                };
             }
         }
 
