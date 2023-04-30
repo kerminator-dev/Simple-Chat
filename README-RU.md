@@ -1,4 +1,5 @@
-Чат - приложение для обмена сообщениями "full stack".
+# Chat - приложение для обмена сообщениями.
+## <a href="https://github.com/kerminator-dev/Simple-Chat/blob/master/README.md">ENG</a> | RU
 
 ![alt text](https://github.com/kerminator-dev/Simple-Chat/blob/master/img/wpf-client.png?raw=true)
 
