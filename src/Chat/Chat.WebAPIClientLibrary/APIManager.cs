@@ -214,42 +214,51 @@ namespace Chat.WebAPIClientLibrary
             try
             {
                 // Отправка сообщения
-                return await _messagingManager.TrySendMessageAsync(sendMessageRequestDTO, _authManager.AccessToken);
-            }
-            catch (UnauthorizedStatusCodeException)
-            {
-                try
-                {
-                    // Переполучение токенов
-                    bool success = await this.TryRefreshToken();
+                // return await _messagingManager.TrySendMessageAsync(sendMessageRequestDTO, _authManager.AccessToken);
+                await _hubConnection.InvokeAsync("SendMessage", sendMessageRequestDTO);
 
-                    // Повторная попытка отправки сообщения
-                    if (success)
-                        return await _messagingManager.TrySendMessageAsync(sendMessageRequestDTO, _authManager.AccessToken);
-
-                    return false;
-                }
-                catch (UnauthorizedStatusCodeException ex)
-                {
-                    throw new UnauthorizedException(ex.Message);
-                }
-                catch (ClientErrorStatusCodeException ex)
-                {
-                    throw new Exceptions.Client.MessageNotSentException(ex.Message);
-                }
-                catch (UnexpectedStatusCodeException)
-                {
-                    throw new Exceptions.Client.MessageNotSentException("Unknown error!");
-                }
+                return true;
             }
-            catch (ClientErrorStatusCodeException ex)
+            catch (HubException ex)
             {
-                throw new MessageNotSentException(ex.Message);
+                throw new Exceptions.Client.MessageNotSentException(ex.Message);
             }
-            catch (UnexpectedStatusCodeException) 
-            { 
-                throw new MessageNotSentException("Unknown error!"); 
-            }
+
+
+            //catch (UnauthorizedStatusCodeException)
+            //{
+            //    try
+            //    {
+            //        // Переполучение токенов
+            //        bool success = await this.TryRefreshToken();
+            //
+            //        // Повторная попытка отправки сообщения
+            //        if (success)
+            //            return await _messagingManager.TrySendMessageAsync(sendMessageRequestDTO, _authManager.AccessToken);
+            //
+            //        return false;
+            //    }
+            //    catch (UnauthorizedStatusCodeException ex)
+            //    {
+            //        throw new UnauthorizedException(ex.Message);
+            //    }
+            //    catch (ClientErrorStatusCodeException ex)
+            //    {
+            //        throw new Exceptions.Client.MessageNotSentException(ex.Message);
+            //    }
+            //    catch (UnexpectedStatusCodeException)
+            //    {
+            //        throw new Exceptions.Client.MessageNotSentException("Unknown error!");
+            //    }
+            //}
+            //catch (ClientErrorStatusCodeException ex)
+            //{
+            //    throw new MessageNotSentException(ex.Message);
+            //}
+            //catch (UnexpectedStatusCodeException) 
+            //{ 
+            //    throw new MessageNotSentException("Unknown error!"); 
+            //}
         }
 
         public async Task<bool> TryDeleteUser()

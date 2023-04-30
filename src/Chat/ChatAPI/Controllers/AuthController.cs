@@ -13,6 +13,7 @@ namespace Chat.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly AuthenticationService _authenticationService;
@@ -31,7 +32,6 @@ namespace Chat.WebAPI.Controllers
         /// <param name="refreshTokenRequest">Запрос на смену токена</param>
         /// <returns></returns>
         [HttpPost("RefreshToken")]
-        [AllowAnonymous]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDTO refreshTokenRequest)
         {
             if (!ModelState.IsValid)
@@ -62,7 +62,6 @@ namespace Chat.WebAPI.Controllers
         /// <param name="registerRequest">Запрос на регистрацию</param>
         /// <returns></returns>
         [HttpPost("Register")]
-        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO registerRequest)
         {
             if (!ModelState.IsValid)
@@ -95,7 +94,6 @@ namespace Chat.WebAPI.Controllers
         /// <param name="loginRequest">Запрос на вход</param>
         /// <returns></returns>
         [HttpPost("Login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO loginRequest)
         {
             if (!ModelState.IsValid)

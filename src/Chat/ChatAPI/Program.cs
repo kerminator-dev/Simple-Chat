@@ -1,15 +1,14 @@
 using Chat.WebAPI.Services.Implementation;
+using Chat.WebAPI.Services.Interfaces;
 using ChatAPI.Extensions;
 using ChatAPI.Hubs;
 using ChatAPI.Services.Implementation;
 using ChatAPI.Services.Interfaces;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.UseUrls("http://25.51.105.220:5000");
+// builder.WebHost.UseUrls("http://25.51.105.220:5000");
 
 builder.Services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
@@ -26,6 +25,9 @@ builder.Services.AddCachedRepositories();
 builder.Services.AddSingleton<ITokenService, JwtTokenService>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
+builder.Services.AddScoped<IContactRepository, ContactRepisotory>();
+builder.Services.AddSingleton<IPubSubService<string>, CachedContactPubSubService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMessagingService, MessagingService>();

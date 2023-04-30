@@ -8,11 +8,8 @@ namespace Chat.Core.DTOs.Requests
         public string Id { get; set; }
         [Required(ErrorMessage = "Receiver is required!")]
         public string Receiver { get; set; }
-
-        [Required(ErrorMessage = "Static key is required!")]
-        public string StaticKey { get; set; }
-
         [Required(ErrorMessage = "Message is required!")]
+        [MaxLength(5000, ErrorMessage = "Max message length is 5000 symbols!")]
         public string Message { get; set; }
     }
 }

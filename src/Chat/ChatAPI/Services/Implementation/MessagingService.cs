@@ -1,6 +1,7 @@
 ﻿using Chat.Core.DTOs.Notifications;
 using Chat.Core.DTOs.Requests;
 using Chat.Core.Enums;
+using Chat.WebAPI.Services.Interfaces;
 using ChatAPI.Exceptions;
 using ChatAPI.Hubs;
 using ChatAPI.Mappings;
@@ -13,17 +14,17 @@ namespace ChatAPI.Services.Implementation
     {
         // Названия SignalR-Событий на стороне клиентов
         private const string ON_NEW_MESSAGE_METHOD_NAME = "NewMessage";
-
-
         private readonly IUserService _userService;
         private readonly IHubContext<ChatHub> _hubContext;
         private readonly CachedUserConnectionMapper<string> _connections;
+        private readonly IPubSubService<string> _pubSubService;
 
-        public MessagingService(IUserService userService, IHubContext<ChatHub> hubContext, CachedUserConnectionMapper<string> connections)
+        public MessagingService(IUserService userService, IHubContext<ChatHub> hubContext, CachedUserConnectionMapper<string> connections, IPubSubService<string> pubSubService)
         {
             _userService = userService;
             _hubContext = hubContext;
             _connections = connections;
+            _pubSubService = pubSubService;
         }
 
         public async Task SendMessage(string senderUsername, SendTextMessageRequestDTO messageRequest)
@@ -35,13 +36,27 @@ namespace ChatAPI.Services.Implementation
             if (receiver == null)
                 throw new EntityNotFoundException("Receiver not found!");
 
+            // Если отправитель не подписан на уведомления получателя
+            if (!_pubSubService.IsSubscribed(senderUsername, receiver.Username))
+            {
+                // Подписка на уведомления
+                _pubSubService.Subscribe(senderUsername, receiver.Username);
+            }
+
+            // Если получатель не подписан на уведомления отправителя
+            if (!_pubSubService.IsSubscribed(receiver.Username, senderUsername))
+            {
+                // Подписка на уведомления
+                _pubSubService.Subscribe(receiver.Username, senderUsername);
+            }
+
             // Сообщение-уведомление
             var message = new TextMessageNotificationDTO()
             {
                 Id = messageRequest.Id,
                 Sender = senderUsername,
                 Receiver = receiver.Username,
-                StaticKey = messageRequest.StaticKey,
+                //StaticKey = messageRequest.StaticKey,
                 Message = messageRequest.Message,
             };
 

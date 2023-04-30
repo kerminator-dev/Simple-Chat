@@ -1,7 +1,13 @@
 ﻿using Chat.Core.DTOs.Notifications;
+using Chat.Core.DTOs.Requests;
 using Chat.Core.Enums;
+using Chat.WebAPI.Services.Interfaces;
+using ChatAPI.Entities;
+using ChatAPI.Exceptions;
 using ChatAPI.Mappings;
+using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ChatAPI.Hubs
@@ -14,10 +20,16 @@ namespace ChatAPI.Hubs
         private const string ACTIVE_USERS_METHOD_NAME = "ActiveUsers";
 
         private readonly CachedUserConnectionMapper<string> _userConnections;
+        private readonly IPubSubService<string> _pubSubService;
+        private readonly IContactService _contactService;
+        private readonly IMessagingService _messagingService;
 
-        public ChatHub(CachedUserConnectionMapper<string> connections)
+        public ChatHub(CachedUserConnectionMapper<string> connections, IPubSubService<string> pubSubService, IContactService contactService, IMessagingService messagingService)
         {
             _userConnections = connections;
+            _pubSubService = pubSubService;
+            _contactService = contactService;
+            _messagingService = messagingService;
         }
 
         public async override Task OnConnectedAsync()
@@ -25,20 +37,32 @@ namespace ChatAPI.Hubs
             // Определение пользователя
             string username = Context.UserIdentifier;
             if (string.IsNullOrEmpty(username))
-                await base.OnDisconnectedAsync(new Exception("AccessTokenRequired!"));
+                Context.Abort();
 
-            // Добавление в кэш
+            // Добавление в кэш подключение пользователя
             _userConnections.Add(username, Context.ConnectionId);
 
             // Если это первая сессия пользователя
             if (_userConnections.GetConnections(username).Count() == 1)
             {
-                // Уведомление подписчиков пользователя о том, что пользователь {username} подключился
-                await NotifyOtherUsersNewUserStatus(Clients, username, OnlineStatus.Online);
+                try
+                {
+                    // Получение списка контактов пользователя
+                    var userContacts = await _contactService.GetAllUserContacts(username);
+
+                    // Автоматическая подписка пользователя на уведомления его контактов
+                    _pubSubService.Subscribe(username, userContacts);
+                }
+                catch (Exception) { }
+
+                // Получение подключений подписчиков подключённого пользователя
+                var subscribersConnectionIDs = this.GetSubscribersConnections(username);
+                // Уведомление подписчиков пользователя о том, что пользователь подключился к хабу
+                await this.NotifyConnectionsNewUserStatus(subscribersConnectionIDs, username, OnlineStatus.Online);
             }
 
             // Уведомление пользователя {username} о списке активных пользователей
-            await NotifyCallerOnlineUsersList(Clients.Caller, username);
+            await NotifyUserOnlineContactsList(username);
 
             await base.OnConnectedAsync();
         }
@@ -48,7 +72,7 @@ namespace ChatAPI.Hubs
             // Определение пользователя
             string? username = Context.UserIdentifier;
             if (string.IsNullOrEmpty(username))
-                await base.OnDisconnectedAsync(exception);
+                Context.Abort();
 
             // Удаление из кэша
             _userConnections.Remove(username, Context.ConnectionId);
@@ -56,42 +80,86 @@ namespace ChatAPI.Hubs
             // Получение оставшихся подключений пользователя
             var otherUserConnections = _userConnections.GetConnections(username);
 
-            // Если подключений у пользователя нет
+            // Если подключений у пользователя нет - т. е. это было последнее подключение
             if (otherUserConnections == null || !otherUserConnections.Any())
             {
+                // Автоматическая отписка пользователя от уведомлений его контактов
+                _pubSubService.RemoveAllSubscribes(username);
 
+                // Получение подключений подписчиков пользователя
+                var subscribersConnectionIDs = this.GetSubscribersConnections(username);
                 // Уведомление подписчиков пользователя о том, что пользователь {username} отключился
-                await NotifyOtherUsersNewUserStatus(Clients, username, OnlineStatus.Offline);
+                await this.NotifyConnectionsNewUserStatus(subscribersConnectionIDs, username, OnlineStatus.Offline);
             }
 
             await base.OnDisconnectedAsync(exception);
         }
-
-
-        private async Task NotifyOtherUsersNewUserStatus(IHubCallerClients clients, string username, OnlineStatus status)
+        
+        /// <summary>
+        /// Отправить сообщение пользователю
+        /// </summary>
+        /// <param name="messageRequestDTO">Объект сообщения</param>
+        /// <returns></returns>
+        /// <exception cref="HubException"></exception>
+        public async Task SendMessage(SendTextMessageRequestDTO messageRequestDTO)
         {
-            // Получение списка всех подключений пользователя
-            var userConnections = _userConnections.GetConnections(username);
+            // Определение пользователя
+            string? username = Context.UserIdentifier;
+            if (string.IsNullOrEmpty(username))
+                throw new HubException("User not found!");
 
+            try
+            {
+                // Отправка сообщения
+                await _messagingService.SendMessage(senderUsername: username, messageRequestDTO);
+            }
+            catch (Exception ex) when (ex is MessageNotSentException || ex is EntityNotFoundException || ex is ArgumentException)
+            {
+                throw new HubException(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Получить список подключений подписчиков пользователя
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        private IEnumerable<string> GetSubscribersConnections(string username)
+        {
+            // Получение подписчиков пользователя
+            var subscribers = _pubSubService.GetSubscribers(username);
+
+            // Получение подключений подписчиков пользователя
+            return _userConnections.GetConnections(subscribers);
+        }
+
+        private async Task NotifyConnectionsNewUserStatus(IEnumerable<string> receiversConnectionIDs, string username, OnlineStatus status)
+        {
             // Рассылка уведомления на все подключения за исключением подключений текущего пользователя
             switch (status)
             {
                 case OnlineStatus.Online:
-                    await clients.AllExcept(userConnections).SendAsync(USER_GETS_ONLINE_METHOD_NAME, username);
+                    await Clients.Clients(receiversConnectionIDs).SendAsync(USER_GETS_ONLINE_METHOD_NAME, username);
                     break;
                 case OnlineStatus.Offline:
-                    await clients.AllExcept(userConnections).SendAsync(USER_GETS_OFFLINE_METHOD_NAME, username);
+                    await Clients.Clients(receiversConnectionIDs).SendAsync(USER_GETS_OFFLINE_METHOD_NAME, username);
                     break;
             }
         }
 
-        private async Task NotifyCallerOnlineUsersList(ISingleClientProxy caller, string receiverUsername)
+        private async Task NotifyUserOnlineContactsList(string receiverUsername)
         {
-            var activeUsers = new ActiveUsersNotificationDTO()
+            // Получение списка контактов пользователя
+            var userSubscribes = _pubSubService.GetSubscribes(receiverUsername);
+            // Поиск только тех, кто в сети
+            var activeUsers = userSubscribes.Where(s => _userConnections.Contains(s));
+
+            var activeUsersNotification = new ActiveUsersNotificationDTO()
             {
-                Usernames = _userConnections.GetAllKeysExcept(receiverUsername)
+                Usernames = activeUsers
             };
-            await caller.SendAsync(ACTIVE_USERS_METHOD_NAME, activeUsers);
+
+            await Clients.Caller.SendAsync(ACTIVE_USERS_METHOD_NAME, activeUsersNotification);
         }
     }
 }

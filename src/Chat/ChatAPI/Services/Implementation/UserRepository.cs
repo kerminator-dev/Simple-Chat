@@ -42,7 +42,7 @@ namespace Chat.WebAPI.Services.Implementation
 
         public async Task Update(User user)
         {
-            var result = _dbContext.Update(user).Entity;
+            _ = _dbContext.Update(user).Entity;
 
             await _dbContext.SaveChangesAsync();
         }

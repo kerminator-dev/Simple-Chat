@@ -1,4 +1,6 @@
-﻿namespace Chat.WebAPI.Utilities
+﻿using static System.Diagnostics.Activity;
+
+namespace Chat.WebAPI.Utilities
 {
     public class ConcurrentHashSet<T> : IDisposable
     {
@@ -9,6 +11,7 @@
         {
             _lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
             _hashSet = new HashSet<T>();
+
         }
 
         public bool Add(T item)
@@ -64,7 +67,7 @@
             }
         }
 
-        public bool Remove(T item)
+        public bool TryRemove(T item)
         {
             try
             {
@@ -77,6 +80,10 @@
             }
         }
 
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _hashSet.GetEnumerator();
+        }
 
         public void Remove(IEnumerable<T> items)
         {
