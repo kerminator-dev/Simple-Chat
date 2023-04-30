@@ -1,4 +1,5 @@
 # Chat - full stack chat application.
+## ENG | <a href="https://github.com/ertanfird/simplify">RU</a>
 
 ![alt text](https://github.com/kerminator-dev/Simple-Chat/blob/master/img/wpf-client.png?raw=true)
 
