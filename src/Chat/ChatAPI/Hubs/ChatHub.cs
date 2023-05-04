@@ -2,12 +2,10 @@
 using Chat.Core.DTOs.Requests;
 using Chat.Core.Enums;
 using Chat.WebAPI.Services.Interfaces;
-using ChatAPI.Entities;
 using ChatAPI.Exceptions;
 using ChatAPI.Mappings;
 using ChatAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ChatAPI.Hubs
@@ -62,7 +60,7 @@ namespace ChatAPI.Hubs
             }
 
             // Уведомление пользователя {username} о списке активных пользователей
-            await NotifyUserOnlineContactsList(username);
+            // await NotifyUserOnlineContactsList(username);
 
             await base.OnConnectedAsync();
         }
@@ -160,7 +158,7 @@ namespace ChatAPI.Hubs
             }
         }
 
-        private async Task NotifyUserOnlineContactsList(string receiverUsername)
+        protected async Task NotifyUserOnlineContactsList(string receiverUsername)
         {
             // Получение списка контактов пользователя
             var userSubscribes = _pubSubService.GetSubscribes(receiverUsername);

@@ -1,6 +1,7 @@
 ﻿using Chat.Core.DTOs;
 using Chat.Core.DTOs.Notifications;
 using Chat.Core.DTOs.Requests;
+using Chat.Core.DTOs.Responses;
 using Chat.WebAPIClientLibrary.Exceptions.Client;
 using Chat.WebAPIClientLibrary.Exceptions.Internal;
 using Chat.WebAPIClientLibrary.Services.Implementation;
@@ -70,22 +71,32 @@ namespace Chat.WebAPIClientLibrary
         /// <summary>
         /// При получении нового сообщения
         /// </summary>
-        public event Action<TextMessageNotificationDTO> OnMessageReceived;
+        public event Action<TextMessageNotificationDTO>? OnMessageReceived;
 
         /// <summary>
         /// При получении уведомления о новом активном пользователе хаба
         /// </summary>
-        public event Action<string> OnUserGetsOnline;
+        public event Action<string>? OnUserGetsOnline;
 
         /// <summary>
         /// При получении уведомления о отключённом пользователе хаба
         /// </summary>
-        public event Action<string> OnUserGetsOffline;
+        public event Action<string>? OnUserGetsOffline;
 
         /// <summary>
         /// При получении уведомления о списке активных пользователей хаба
         /// </summary>
-        public Action<ActiveUsersNotificationDTO> OnActiveUsersNotification;
+        public event Action<ActiveUsersNotificationDTO>? OnActiveUsersNotification;
+
+        /// <summary>
+        /// При получении уведомления о новом контакте пользователя
+        /// </summary>
+        public event Action<NewContactNotificationDTO>? OnContactAdded;
+
+        /// <summary>
+        /// При получении уведомления о удаленном контакте пользователя
+        /// </summary>
+        public event Action<string>? OnContactDeleted;
 
         #region Менеджеры для работы с контроллерами
         private IAuthManager _authManager;
@@ -129,6 +140,16 @@ namespace Chat.WebAPIClientLibrary
             _hubConnection.On<ActiveUsersNotificationDTO>("ActiveUsers", (message) =>
             {
                 OnActiveUsersNotification?.Invoke(message);
+            });
+
+            _hubConnection.On<NewContactNotificationDTO>("OnContactAdded", (message) =>
+            {
+                OnContactAdded?.Invoke(message);
+            });
+
+            _hubConnection.On<string>("OnContactDeleted", (message) =>
+            {
+                OnContactDeleted?.Invoke(message);
             });
         }
 

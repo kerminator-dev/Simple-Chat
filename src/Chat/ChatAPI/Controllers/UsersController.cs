@@ -29,8 +29,8 @@ namespace ChatAPI.Controllers
             _hubConnections = hubConnections;
         }
 
-        [HttpGet("Get")]
-        public async Task<IActionResult> GetUser([FromBody] GetUserRequestDTO getUserRequest)
+        [HttpGet("Get/{username}")]
+        public async Task<IActionResult> Get(string username)
         {
             var user = await _authenticationService.RetrieveUserFromHTTPContex(HttpContext);
             if (user == null)
@@ -39,17 +39,17 @@ namespace ChatAPI.Controllers
             try
             {
                 // Существует ли пользователь
-                bool userExists = await _userService.IsUserExists(getUserRequest.Username);
+                bool userExists = await _userService.IsUserExists(username);
                 if (!userExists)
                 {
                     return NotFound("User not found!");
                 }
 
                 // Подключён ли пользователь к хабу
-                bool isConnectedToHub = _hubConnections.Contains(getUserRequest.Username);
+                bool isConnectedToHub = _hubConnections.Contains(username);
                 var userResponse = new UserResponseDTO
                 (
-                    username: getUserRequest.Username,
+                    username: username,
                     onlineStatus: isConnectedToHub ? OnlineStatus.Online : OnlineStatus.Offline
                 );
 

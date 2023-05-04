@@ -33,6 +33,8 @@ namespace Chat.ConsoleClientListener
             _apiManager.OnUserGetsOffline += OnUserGetsOffline;
             _apiManager.OnActiveUsersNotification += OnActiveUsersNotification;
             _apiManager.OnMessageReceived += OnMessageReceived;
+            _apiManager.OnContactDeleted += OnContactDeleted;
+            _apiManager.OnContactAdded += OnContactAdded;
 
             var loginRequest = new LoginRequestDTO()
             {
@@ -45,15 +47,15 @@ namespace Chat.ConsoleClientListener
                 var user = await _apiManager.TryLogin(loginRequest);
                 LogInformation($"Вошёл как {user.Username}");
 
-                Console.Write("Отправить сообщение: ");
-                var usernameReceiver = Console.ReadLine();
-                var sendMessageDTO = new SendTextMessageRequestDTO()
-                {
-                    Id = "1",
-                    Message = "Test",
-                    Receiver = usernameReceiver
-                };
-                await _apiManager.TrySendMessageAsync(sendMessageDTO);
+               //Console.Write("Отправить сообщение: ");
+               //var usernameReceiver = Console.ReadLine();
+               //var sendMessageDTO = new SendTextMessageRequestDTO()
+               //{
+               //    Id = "1",
+               //    Message = "Test",
+               //    Receiver = usernameReceiver
+               //};
+               //await _apiManager.TrySendMessageAsync(sendMessageDTO);
             }
             catch (Exception ex)
             {
@@ -66,6 +68,16 @@ namespace Chat.ConsoleClientListener
         private static void LogInformation(string message)
         {
             Console.WriteLine($"{DateTime.Now.ToLongTimeString()}: {message}");
+        }
+
+        private static void OnContactDeleted(string contactUsername)
+        {
+            LogInformation($"{contactUsername} удалён из списка контактов");
+        }
+
+        private static void OnContactAdded(NewContactNotificationDTO newContact)
+        {
+            LogInformation($"{newContact.Username} добавлен в список контактов.");
         }
 
         private static Task OnConnectionClosed(Exception? ex)

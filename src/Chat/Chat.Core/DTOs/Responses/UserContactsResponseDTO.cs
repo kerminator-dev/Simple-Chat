@@ -2,11 +2,16 @@
 {
     public class UserContactsResponseDTO
     {
-        public IEnumerable<string> Usernames { get; set; }
+        public IEnumerable<UserResponseDTO> Contacts { get; private set; }
 
-        public UserContactsResponseDTO(IEnumerable<string> usernames)
+        public UserContactsResponseDTO(IEnumerable<UserResponseDTO> contacts)
         {
-            Usernames = usernames;
+            Contacts = contacts;
+        }
+
+        public UserContactsResponseDTO()
+        {
+            Contacts = new List<UserResponseDTO>();
         }
     }
 }

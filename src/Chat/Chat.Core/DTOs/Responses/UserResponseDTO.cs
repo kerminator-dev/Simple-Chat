@@ -4,7 +4,7 @@ namespace Chat.Core.DTOs.Responses
 {
     public class UserResponseDTO
     {
-        public readonly string Username;
+        public string Username { get; private set; }
         public bool IsOnline => _onlineStatus == OnlineStatus.Online;
 
         private readonly OnlineStatus _onlineStatus;

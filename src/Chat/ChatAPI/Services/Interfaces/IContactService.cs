@@ -1,8 +1,12 @@
-﻿namespace Chat.WebAPI.Services.Interfaces
+﻿using Chat.Core.DTOs.Responses;
+
+namespace Chat.WebAPI.Services.Interfaces
 {
     public interface IContactService
     {
         Task<IEnumerable<string>> GetAllUserContacts(string username);
+
+        Task<UserContactsResponseDTO> GetAllUserContactsWithOnlineStatuses(string username);
 
         Task AddContact(string username, string contactUsername);
 

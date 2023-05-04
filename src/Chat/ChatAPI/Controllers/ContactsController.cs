@@ -1,5 +1,6 @@
 ﻿using Chat.Core.DTOs.Requests;
 using Chat.Core.DTOs.Responses;
+using Chat.WebAPI.Exceptions;
 using Chat.WebAPI.Services.Interfaces;
 using ChatAPI.Entities;
 using ChatAPI.Exceptions;
@@ -34,12 +35,9 @@ namespace Chat.WebAPI.Controllers
             try
             {
                 // Получение списка всех контактов пользователя
-                var contactsResponse = new UserContactsResponseDTO
-                (
-                    await _contactService.GetAllUserContacts(user.Username)
-                );
+                var contacts = await _contactService.GetAllUserContactsWithOnlineStatuses(user.Username);
 
-                return Ok(contactsResponse);
+                return Ok(contacts);
             }
             catch (EntityNotFoundException ex)
             {
@@ -63,6 +61,10 @@ namespace Chat.WebAPI.Controllers
                 await _contactService.AddContacts(user.Username, addContactsRequest.Usernames);
 
                 return Ok();
+            }
+            catch (ContactNotAddedException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception)
             {
