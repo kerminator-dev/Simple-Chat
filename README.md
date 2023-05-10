@@ -42,8 +42,8 @@ The basic and general principle is simple text messaging to another users with a
 - ✅ Delete account
 
 ✅ Contacts:
-- ✅ Add contacts
-- ✅ Delete contacts
+- ✅ Add contacts + real-time SignalR notification
+- ✅ Delete contacts + real-time SignalR notification
 - ✅ Get all contacts
 
 ✅ Tiny notifications:
